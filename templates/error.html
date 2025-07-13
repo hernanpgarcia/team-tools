@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Error - Team Tools{% endblock %}
+
+{% block content %}
+<div class="error-container">
+    <h2>⚠️ Calculation Error</h2>
+    
+    <div class="error-message">
+        <p><strong>There was an error with your calculation:</strong></p>
+        <p class="error-details">{{ error_message }}</p>
+    </div>
+    
+    <div class="error-suggestions">
+        <h3>💡 Common Issues:</h3>
+        <ul>
+            <li><strong>Empty fields:</strong> Make sure all required fields are filled out</li>
+            <li><strong>Invalid numbers:</strong> Check that all numeric inputs are valid</li>
+            <li><strong>Improvement values:</strong> Make sure you've entered either absolute OR relative improvement</li>
+            <li><strong>Sample sizes:</strong> Ensure minimum sample size is less than maximum</li>
+            <li><strong>Effect size too small:</strong> Very small effect sizes may require unrealistic sample sizes</li>
+        </ul>
+    </div>
+    
+    <div class="error-actions">
+        <a href="{{ back_url }}" class="error-button">← Try Again</a>
+        <a href="/" class="error-button">← Back to Dashboard</a>
+    </div>
+    
+    <div class="help-section">
+        <h3>Need Help?</h3>
+        <p>If you continue to experience issues, try these troubleshooting steps:</p>
+        <ol>
+            <li>Double-check all input values are reasonable for your metric</li>
+            <li>For relative improvements, use percentages (e.g., 10 for 10%)</li>
+            <li>Ensure your baseline mean and standard deviation are positive</li>
+            <li>Consider using more conservative effect sizes if calculations fail</li>
+        </ol>
+    </div>
+</div>
+{% endblock %}

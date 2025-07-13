@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Sequential Testing Calculator - mSPRT{% endblock %}
+
+{% block content %}
+<h2>Sequential Testing Calculator - mSPRT Framework</h2>
+<p class="description">Mixed Sequential Probability Ratio Test for continuous monitoring and early stopping.</p>
+
+<form method="POST" action="/calculate-msprt" class="calculator-form">
+    <div class="form-section">
+        <h3>📊 Test Parameters</h3>
+        
+        <div class="form-group">
+            <label for="baseline_mean"><strong>Baseline Mean:</strong></label>
+            <input type="number" step="any" name="baseline_mean" id="baseline_mean" required placeholder="e.g., 2.5">
+            <small>The current average value of your metric</small>
+        </div>
+        
+        <div class="form-group">
+            <label><strong>Standard Deviation:</strong></label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="std_known" value="known">
+                    <strong>Known:</strong>
+                </label>
+                <input type="number" step="any" name="baseline_std" placeholder="e.g., 0.8">
+                <small>Use when you have historical data or pilot studies</small>
+            </div>
+            
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="std_known" value="estimated" checked>
+                    <strong>Estimated from pilot data/historical data</strong>
+                </label>
+                <small>Recommended: Uses Welch's t-test for robustness</small>
+            </div>
+            
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="std_known" value="unknown">
+                    <strong>Unknown (use robust methods)</strong>
+                </label>
+                <small>Conservative estimation with robust sequential boundaries</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h3>📈 Expected Improvement</h3>
+        
+        <div class="form-group">
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="improvement_type" value="absolute" checked>
+                    <strong>Absolute Improvement</strong>
+                </label>
+                <input type="number" step="any" name="absolute_improvement" placeholder="e.g., 0.3">
+                <small>Direct change in metric value</small>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="improvement_type" value="relative">
+                    <strong>Relative Improvement (%)</strong>
+                </label>
+                <input type="number" step="any" name="relative_improvement" placeholder="e.g., 15">
+                <small>Percentage change from baseline</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h3>⚙️ mSPRT Parameters</h3>
+        
+        <div class="form-group">
+            <label for="alpha"><strong>Type I Error (Alpha):</strong></label>
+            <select name="alpha" id="alpha">
+                <option value="0.01">1%</option>
+                <option value="0.05" selected>5%</option>
+                <option value="0.1">10%</option>
+            </select>
+            <small>Probability of false positive (strictly controlled)</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="beta"><strong>Type II Error (Beta):</strong></label>
+            <select name="beta" id="beta">
+                <option value="0.05">5% (95% power)</option>
+                <option value="0.1">10% (90% power)</option>
+                <option value="0.2" selected>20% (80% power)</option>
+            </select>
+            <small>Probability of missing a true effect</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="max_n"><strong>Maximum Sample Size per Group:</strong></label>
+            <input type="number" name="max_n" id="max_n" required placeholder="e.g., 10000">
+            <small>Safety cap to prevent infinite testing</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="min_n"><strong>Minimum Sample Size per Group:</strong></label>
+            <input type="number" name="min_n" id="min_n" value="100" placeholder="e.g., 100">
+            <small>Minimum before any analysis (prevents early false positives)</small>
+        </div>
+    </div>
+    
+    <button type="submit">Calculate mSPRT Boundaries</button>
+</form>
+
+<div class="info-section">
+    <h3>💡 Advantages of mSPRT Sequential Testing</h3>
+    <div class="advantages-grid">
+        <div class="advantage-item">
+            <strong>🎯 Always Valid:</strong> Type I error rate exactly controlled - no "peeking penalty"
+        </div>
+        <div class="advantage-item">
+            <strong>⚡ Efficient:</strong> Can reduce sample size by 30-50% when effects exist
+        </div>
+        <div class="advantage-item">
+            <strong>🔄 Continuous:</strong> Monitor results at any time without alpha inflation
+        </div>
+        <div class="advantage-item">
+            <strong>🛡️ Robust:</strong> Handles unknown variance better than fixed horizon tests
+        </div>
+    </div>
+    
+    <h4>When to Use Sequential Testing:</h4>
+    <ul>
+        <li><strong>Continuous monitoring:</strong> Want to check results regularly</li>
+        <li><strong>Early stopping:</strong> Stop as soon as results are conclusive</li>
+        <li><strong>Unknown variance:</strong> Don't have good estimates of metric variability</li>
+        <li><strong>Efficiency focus:</strong> Want to minimize sample size when possible</li>
+    </ul>
+</div>
+
+<div class="navigation-links">
+    <a href="/">← Back to Dashboard</a>
+    <a href="/sample-size-calculator">→ Try Fixed Horizon Testing</a>
+</div>
+{% endblock %}

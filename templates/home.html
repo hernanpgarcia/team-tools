@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Team Tools Dashboard{% endblock %}
+
+{% block content %}
+<div class="welcome-section">
+    <h2>Welcome to Team Tools Dashboard</h2>
+    <p>Statistical tools designed for A/B testing and team productivity analysis.</p>
+</div>
+
+<div class="tools-grid">
+    <div class="tool-card">
+        <h3>📊 Sample Size Calculator</h3>
+        <p>Calculate required sample sizes for fixed horizon A/B tests using Welch's T-test framework.</p>
+        <ul>
+            <li>Supports absolute and relative improvements</li>
+            <li>Configurable statistical power and significance levels</li>
+            <li>Confidence intervals for effect sizes</li>
+            <li>Handles unknown standard deviation scenarios</li>
+        </ul>
+        <a href="/sample-size-calculator" class="tool-button">Launch Calculator</a>
+    </div>
+
+    <div class="tool-card">
+        <h3>🔄 Sequential Testing (mSPRT)</h3>
+        <p>Plan sequential experiments that can be stopped early when results are conclusive.</p>
+        <ul>
+            <li>Mixed Sequential Probability Ratio Test framework</li>
+            <li>Continuous monitoring without alpha inflation</li>
+            <li>Robust handling of unknown variance</li>
+            <li>Optimal efficiency for early stopping</li>
+        </ul>
+        <a href="/sequential-calculator" class="tool-button">Launch Sequential Calculator</a>
+    </div>
+
+    <div class="tool-card coming-soon">
+        <h3>🎯 OKR Tracker</h3>
+        <p>Track and analyze your team's Objectives and Key Results progress.</p>
+        <ul>
+            <li>Progress visualization</li>
+            <li>Goal completion tracking</li>
+            <li>Team performance insights</li>
+            <li>Historical trend analysis</li>
+        </ul>
+        <div class="coming-soon-badge">Coming Soon</div>
+    </div>
+</div>
+
+<div class="methodology-section">
+    <h3>📚 Methodology</h3>
+    <p>Our tools implement industry-standard statistical methods:</p>
+    <div class="method-grid">
+        <div class="method-item">
+            <strong>Welch's T-test:</strong> Robust testing for unequal variances
+        </div>
+        <div class="method-item">
+            <strong>mSPRT:</strong> Optimal sequential testing with controlled error rates
+        </div>
+        <div class="method-item">
+            <strong>Cohen's d:</strong> Standardized effect size measurements
+        </div>
+        <div class="method-item">
+            <strong>Confidence Intervals:</strong> Uncertainty quantification for all estimates
+        </div>
+    </div>
+</div>
+{% endblock %}

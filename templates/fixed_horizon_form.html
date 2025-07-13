@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Sample Size Calculator - Fixed Horizon{% endblock %}
+
+{% block content %}
+<h2>Sample Size Calculator - Fixed Horizon Testing</h2>
+<p class="description">Calculate the required sample size for A/B tests with predetermined end points.</p>
+
+<form method="POST" action="/calculate-sample-size" class="calculator-form">
+    <div class="form-section">
+        <h3>📊 Test Parameters</h3>
+        
+        <div class="form-group">
+            <label for="baseline_mean"><strong>Baseline Mean:</strong></label>
+            <input type="number" step="any" name="baseline_mean" id="baseline_mean" required placeholder="e.g., 2.5">
+            <small>The current average value of your metric</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="baseline_std"><strong>Standard Deviation (if known):</strong></label>
+            <input type="number" step="any" name="baseline_std" id="baseline_std" placeholder="e.g., 0.8">
+            <small>Leave blank if unknown - we'll use conservative estimates</small>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h3>📈 Expected Improvement</h3>
+        
+        <div class="form-group">
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="improvement_type" value="absolute" checked>
+                    <strong>Absolute Improvement</strong>
+                </label>
+                <input type="number" step="any" name="absolute_improvement" placeholder="e.g., 0.3">
+                <small>Direct change in metric value</small>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="improvement_type" value="relative">
+                    <strong>Relative Improvement (%)</strong>
+                </label>
+                <input type="number" step="any" name="relative_improvement" placeholder="e.g., 15">
+                <small>Percentage change from baseline</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h3>⚙️ Statistical Parameters</h3>
+        
+        <div class="form-group">
+            <label for="power"><strong>Statistical Power:</strong></label>
+            <select name="power" id="power">
+                <option value="0.8" selected>80% (Standard)</option>
+                <option value="0.85">85%</option>
+                <option value="0.9">90%</option>
+                <option value="0.95">95%</option>
+            </select>
+            <small>Probability of detecting an effect if it exists</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="alpha"><strong>Significance Level (Alpha):</strong></label>
+            <select name="alpha" id="alpha">
+                <option value="0.01">1% (99% confidence)</option>
+                <option value="0.05" selected>5% (95% confidence)</option>
+                <option value="0.1">10% (90% confidence)</option>
+            </select>
+            <small>Probability of false positive (Type I error)</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="test_type"><strong>Test Type:</strong></label>
+            <select name="test_type" id="test_type">
+                <option value="two-sided" selected>Two-sided (Different)</option>
+                <option value="one-sided">One-sided (Greater than)</option>
+            </select>
+            <small>Whether you care about direction of change</small>
+        </div>
+    </div>
+    
+    <button type="submit">Calculate Sample Size</button>
+</form>
+
+<div class="info-section">
+    <h3>💡 When to Use Fixed Horizon Testing</h3>
+    <ul>
+        <li><strong>Predetermined end date:</strong> When you have a fixed timeline</li>
+        <li><strong>Single analysis:</strong> Plan to analyze results only once</li>
+        <li><strong>Regulatory requirements:</strong> When protocols require pre-specified sample sizes</li>
+        <li><strong>Simple implementation:</strong> Easier to execute than sequential testing</li>
+    </ul>
+    
+    <p><strong>Alternative:</strong> Consider <a href="/sequential-calculator">Sequential Testing (mSPRT)</a> if you want the flexibility to stop early or monitor continuously.</p>
+</div>
+
+<div class="navigation-links">
+    <a href="/">← Back to Dashboard</a>
+    <a href="/sequential-calculator">→ Try Sequential Testing</a>
+</div>
+{% endblock %}
