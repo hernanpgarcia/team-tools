@@ -27,6 +27,11 @@ header h1 a {
     color: inherit;
 }
 
+.home-icon {
+    margin-right: 8px;
+    font-size: 0.9em;
+}
+
 nav ul {
     list-style: none;
     padding: 0;
@@ -76,7 +81,7 @@ input[type="number"] {
 }
 
 button {
-    background-color: #3498db;
+    background-color: #27ae60;
     color: white;
     padding: 12px 24px;
     border: none;
@@ -87,7 +92,7 @@ button {
 }
 
 button:hover {
-    background-color: #2980b9;
+    background-color: #229954;
 }
 
 .warning {
@@ -210,7 +215,7 @@ footer {
 
 .tool-button {
     display: inline-block;
-    background-color: #3498db;
+    background-color: #27ae60;
     color: white;
     padding: 12px 24px;
     text-decoration: none;
@@ -220,7 +225,7 @@ footer {
 }
 
 .tool-button:hover {
-    background-color: #2980b9;
+    background-color: #229954;
 }
 
 .coming-soon-badge {
@@ -427,7 +432,7 @@ footer {
 }
 
 .step-number {
-    background-color: #3498db;
+    background-color: #27ae60;
     color: white;
     width: 30px;
     height: 30px;
@@ -625,5 +630,267 @@ footer {
     
     .monitoring-table {
         font-size: 12px;
+    }
+    
+    .tab-buttons {
+        flex-direction: column;
+    }
+    
+    .step-buttons {
+        flex-direction: column;
+    }
+}
+
+/* Tab Interface Styles */
+.calculator-tabs {
+    margin: 20px 0;
+}
+
+.tab-buttons {
+    display: flex;
+    background-color: #f8f9fa;
+    border-radius: 8px 8px 0 0;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    overflow: hidden;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 15px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.2s;
+    border-right: 1px solid #ddd;
+}
+
+.tab-button:last-child {
+    border-right: none;
+}
+
+.tab-button:hover {
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+.tab-button.active {
+    background-color: #27ae60;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 0 0 8px 8px;
+    background: white;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.method-info {
+    background-color: #e8f4f8;
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 25px;
+    border-left: 4px solid #3498db;
+}
+
+.method-info h3 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.method-comparison {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 15px 0;
+}
+
+/* Standard Deviation Results Styles */
+.results-summary {
+    text-align: center;
+    margin: 30px 0;
+    padding: 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+}
+
+.key-result {
+    margin-top: 20px;
+}
+
+.result-value {
+    font-size: 3em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.result-label {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+.cv-low {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.cv-medium {
+    color: #f39c12;
+    font-weight: bold;
+}
+
+.cv-high {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.usage-recommendations {
+    background-color: #f8f9fa;
+    padding: 25px;
+    border-radius: 8px;
+    margin: 30px 0;
+}
+
+.recommendation-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.recommendation-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.recommendation-card h4 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.improvement-suggestions {
+    background-color: #fff3cd;
+    border: 1px solid #ffeaa7;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.suggestions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.suggestion-item {
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #f39c12;
+}
+
+.next-steps {
+    margin: 30px 0;
+    text-align: center;
+}
+
+.step-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.step-button {
+    display: block;
+    background: white;
+    border: 2px solid #27ae60;
+    color: #27ae60;
+    padding: 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+    min-width: 180px;
+    text-align: center;
+}
+
+.step-button:hover {
+    background-color: #27ae60;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.step-button small {
+    display: block;
+    margin-top: 5px;
+    opacity: 0.8;
+    font-size: 12px;
+}
+
+/* Textarea styling */
+textarea {
+    width: 100%;
+    max-width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    resize: vertical;
+}
+
+/* Conversion Rate Specific Styles */
+.conversion-methods {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.conversion-method {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #f8f9fa;
+}
+
+.conversion-method h4 {
+    margin-top: 0;
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+.sample-size-recommendations {
+    margin: 30px 0;
+    background-color: #f8f9fa;
+    padding: 25px;
+    border-radius: 8px;
+}
+
+.sample-size-recommendations table {
+    margin-top: 15px;
+}
+
+@media (max-width: 768px) {
+    .conversion-methods {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 }

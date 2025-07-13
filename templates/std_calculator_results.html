@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+
+{% block title %}Standard Deviation Results{% endblock %}
+
+{% block content %}
+<h2>Standard Deviation Calculation Results</h2>
+
+{% if method == 'data' %}
+<!-- Results from Raw Data -->
+<div class="results-summary">
+    <h3>📊 Calculated from {{ n }} Data Points</h3>
+    <div class="key-result">
+        <div class="result-value">{{ "%.4f"|format(std_dev) }}</div>
+        <div class="result-label">Standard Deviation</div>
+    </div>
+</div>
+
+<div class="results-grid">
+    <div class="results-section">
+        <h3>📈 Descriptive Statistics</h3>
+        <table class="results-table">
+            <tr><td><strong>Sample Size (n):</strong></td><td>{{ n }}</td></tr>
+            <tr><td><strong>Mean:</strong></td><td>{{ "%.4f"|format(mean) }}</td></tr>
+            <tr><td><strong>Median:</strong></td><td>{{ "%.4f"|format(median) }}</td></tr>
+            <tr><td><strong>Standard Deviation:</strong></td><td>{{ "%.4f"|format(std_dev) }}</td></tr>
+            <tr><td><strong>Variance:</strong></td><td>{{ "%.4f"|format(variance) }}</td></tr>
+            <tr><td><strong>Minimum:</strong></td><td>{{ "%.4f"|format(min) }}</td></tr>
+            <tr><td><strong>Maximum:</strong></td><td>{{ "%.4f"|format(max) }}</td></tr>
+        </table>
+    </div>
+
+    <div class="results-section">
+        <h3>📊 Variability Measures</h3>
+        <table class="results-table">
+            <tr><td><strong>Coefficient of Variation:</strong></td><td>{{ "%.1f%"|format(cv) }}</td></tr>
+            <tr><td><strong>Standard Error of Mean:</strong></td><td>{{ "%.4f"|format(sem) }}</td></tr>
+            <tr><td><strong>95% CI for Mean:</strong></td><td>[{{ "%.3f"|format(ci_lower) }}, {{ "%.3f"|format(ci_upper) }}]</td></tr>
+        </table>
+    </div>
+</div>
+
+<div class="interpretation-section">
+    <h3>💡 Interpretation</h3>
+    <p><strong>Standard Deviation:</strong> {{ "%.4f"|format(std_dev) }} indicates that about 68% of your data falls within ±{{ "%.4f"|format(std_dev) }} of the mean ({{ "%.4f"|format(mean) }}).</p>
+    
+    <p><strong>Coefficient of Variation:</strong> {{ "%.1f%"|format(cv) }} 
+    {% if cv < 15 %}
+        - <span class="cv-low">Low variability</span> - Your metric is quite consistent
+    {% elif cv < 30 %}
+        - <span class="cv-medium">Moderate variability</span> - Typical for many business metrics
+    {% else %}
+        - <span class="cv-high">High variability</span> - Your metric has substantial variation
+    {% endif %}
+    </p>
+</div>
+
+{% elif method == 'range' %}
+<!-- Results from Range Estimation -->
+<div class="results-summary">
+    <h3>📏 Estimated from Range</h3>
+    <div class="key-result">
+        <div class="result-value">{{ "%.4f"|format(estimated_std) }}</div>
+        <div class="result-label">Estimated Standard Deviation</div>
+    </div>
+</div>
+
+<div class="results-grid">
+    <div class="results-section">
+        <h3>📊 Range Information</h3>
+        <table class="results-table">
+            <tr><td><strong>Minimum Value:</strong></td><td>{{ min_val }}</td></tr>
+            <tr><td><strong>Maximum Value:</strong></td><td>{{ max_val }}</td></tr>
+            <tr><td><strong>Range:</strong></td><td>{{ "%.4f"|format(range) }}</td></tr>
+            <tr><td><strong>Estimated Mean:</strong></td><td>{{ "%.4f"|format(mean_estimate) }}</td></tr>
+            <tr><td><strong>Estimated Std Dev:</strong></td><td>{{ "%.4f"|format(estimated_std) }}</td></tr>
+            <tr><td><strong>Estimated CV:</strong></td><td>{{ "%.1f%"|format(cv_estimate) }}</td></tr>
+        </table>
+    </div>
+
+    <div class="results-section">
+        <h3>⚙️ Method Details</h3>
+        <table class="results-table">
+            <tr><td><strong>Method:</strong></td><td>{{ method }}</td></tr>
+            <tr><td><strong>Accuracy:</strong></td><td>{{ accuracy }}</td></tr>
+        </table>
+    </div>
+</div>
+
+<div class="interpretation-section">
+    <h3>💡 Interpretation</h3>
+    <p><strong>Estimated Standard Deviation:</strong> {{ "%.4f"|format(estimated_std) }} based on your range of {{ "%.4f"|format(range) }}.</p>
+    
+    <p><strong>Method Accuracy:</strong> {{ accuracy }}. This method assumes your data is roughly normally distributed.</p>
+    
+    <div class="warning">
+        <strong>⚠️ Note:</strong> Range-based estimates are rough approximations. For better accuracy, collect actual data points when possible.
+    </div>
+</div>
+
+{% elif method == 'percentiles' %}
+<!-- Results from Percentiles -->
+<div class="results-summary">
+    <h3>📈 Estimated from Quartiles</h3>
+    <div class="key-result">
+        <div class="result-value">{{ "%.4f"|format(estimated_std_iqr) }}</div>
+        <div class="result-label">Estimated Standard Deviation (IQR Method)</div>
+    </div>
+</div>
+
+<div class="results-grid">
+    <div class="results-section">
+        <h3>📊 Quartile Information</h3>
+        <table class="results-table">
+            <tr><td><strong>Q1 (25th percentile):</strong></td><td>{{ "%.4f"|format(q1) }}</td></tr>
+            <tr><td><strong>Median (50th percentile):</strong></td><td>{{ "%.4f"|format(median) }}</td></tr>
+            <tr><td><strong>Q3 (75th percentile):</strong></td><td>{{ "%.4f"|format(q3) }}</td></tr>
+            <tr><td><strong>Interquartile Range (IQR):</strong></td><td>{{ "%.4f"|format(iqr) }}</td></tr>
+        </table>
+    </div>
+
+    <div class="results-section">
+        <h3>📏 Estimated Statistics</h3>
+        <table class="results-table">
+            <tr><td><strong>Std Dev (IQR method):</strong></td><td>{{ "%.4f"|format(estimated_std_iqr) }}</td></tr>
+            <tr><td><strong>Std Dev (MAD method):</strong></td><td>{{ "%.4f"|format(estimated_std_mad) }}</td></tr>
+            <tr><td><strong>Method:</strong></td><td>{{ method }}</td></tr>
+            <tr><td><strong>Accuracy:</strong></td><td>{{ accuracy }}</td></tr>
+        </table>
+    </div>
+</div>
+
+<div class="interpretation-section">
+    <h3>💡 Interpretation</h3>
+    <p><strong>IQR-based estimate:</strong> {{ "%.4f"|format(estimated_std_iqr) }} - This is generally the most reliable estimate from quartiles.</p>
+    
+    <p><strong>Alternative estimate:</strong> {{ "%.4f"|format(estimated_std_mad) }} using the MAD approximation.</p>
+    
+    <p><strong>Recommendation:</strong> Use {{ "%.4f"|format(estimated_std_iqr) }} as your standard deviation estimate.</p>
+</div>
+
+{% elif method == 'conversion_data' %}
+<!-- Results from Conversion Rate Historical Data -->
+<div class="results-summary">
+    <h3>📊 Proportion Metric Analysis from {{ n_periods }} Periods</h3>
+    <div class="key-result">
+        <div class="result-value">{{ "%.2f%"|format(pooled_rate * 100) }}</div>
+        <div class="result-label">Overall Proportion Rate</div>
+    </div>
+</div>
+
+<div class="results-grid">
+    <div class="results-section">
+        <h3>📈 Conversion Statistics</h3>
+        <table class="results-table">
+            <tr><td><strong>Number of Periods:</strong></td><td>{{ n_periods }}</td></tr>
+            <tr><td><strong>Total Conversions:</strong></td><td>{{ "{:,}"|format(total_conversions) }}</td></tr>
+            <tr><td><strong>Total Visitors:</strong></td><td>{{ "{:,}"|format(total_visitors) }}</td></tr>
+            <tr><td><strong>Pooled Conversion Rate:</strong></td><td>{{ "%.3f%"|format(pooled_rate * 100) }}</td></tr>
+            <tr><td><strong>Average Visitors/Period:</strong></td><td>{{ "{:,.0f}"|format(avg_visitors_per_period) }}</td></tr>
+        </table>
+    </div>
+
+    <div class="results-section">
+        <h3>📊 Variability Analysis</h3>
+        <table class="results-table">
+            <tr><td><strong>Observed Std Dev:</strong></td><td>{{ "%.4f"|format(std_dev_observed) }} ({{ "%.2f%"|format(std_dev_observed * 100) }})</td></tr>
+            <tr><td><strong>Theoretical Std Dev:</strong></td><td>{{ "%.4f"|format(theoretical_std) }} ({{ "%.2f%"|format(theoretical_std * 100) }})</td></tr>
+            <tr><td><strong>Standard Error:</strong></td><td>{{ "%.4f"|format(pooled_std) }}</td></tr>
+            <tr><td><strong>95% CI for Rate:</strong></td><td>[{{ "%.2f%"|format(ci_lower * 100) }}, {{ "%.2f%"|format(ci_upper * 100) }}]</td></tr>
+        </table>
+    </div>
+</div>
+
+<div class="interpretation-section">
+    <h3>💡 Interpretation</h3>
+    <p><strong>For A/B Testing:</strong> Use <strong>{{ "%.4f"|format(pooled_std) }}</strong> as your standard deviation when planning tests with ~{{ "{:,.0f}"|format(avg_visitors_per_period) }} visitors per group.</p>
+    
+    <p><strong>Variability Assessment:</strong> Your observed variability ({{ "%.4f"|format(std_dev_observed) }}) 
+    {% if abs(std_dev_observed - theoretical_std) / theoretical_std < 0.2 %}
+        <span class="cv-low">matches theoretical expectations</span> - good stability
+    {% else %}
+        <span class="cv-medium">differs from theoretical</span> - may indicate external factors affecting conversion rates
+    {% endif %}
+    </p>
+</div>
+
+{% elif method == 'conversion_theoretical' %}
+<!-- Results from Theoretical Conversion Rate Calculation -->
+<div class="results-summary">
+    <h3>🎯 Theoretical Proportion Analysis</h3>
+    <div class="key-result">
+        <div class="result-value">{{ "%.4f"|format(std_dev) }}</div>
+        <div class="result-label">Standard Deviation ({{ "%.3f%"|format(std_dev * 100) }})</div>
+    </div>
+</div>
+
+<div class="results-grid">
+    <div class="results-section">
+        <h3>📊 Test Parameters</h3>
+        <table class="results-table">
+            <tr><td><strong>Baseline Conversion Rate:</strong></td><td>{{ "%.2f%"|format(baseline_rate * 100) }}</td></tr>
+            <tr><td><strong>Sample Size per Group:</strong></td><td>{{ "{:,}"|format(sample_size) }}</td></tr>
+            <tr><td><strong>Standard Deviation:</strong></td><td>{{ "%.4f"|format(std_dev) }}</td></tr>
+            <tr><td><strong>Standard Error:</strong></td><td>{{ "%.4f"|format(standard_error) }}</td></tr>
+        </table>
+    </div>
+
+    <div class="results-section">
+        <h3>🎯 Detection Capability</h3>
+        <table class="results-table">
+            <tr><td><strong>95% CI Width:</strong></td><td>±{{ "%.3f%"|format(ci_margin * 100) }}</td></tr>
+            <tr><td><strong>Minimum Detectable Effect:</strong></td><td>{{ "%.3f%"|format(mde_relative) }} relative ({{ "%.4f"|format(mde_absolute) }} absolute)</td></tr>
+        </table>
+    </div>
+</div>
+
+<div class="sample-size-recommendations">
+    <h3>📏 Sample Sizes for Different Effect Sizes</h3>
+    <table class="monitoring-table">
+        <thead>
+            <tr>
+                <th>Relative Effect</th>
+                <th>Absolute Effect</th>
+                <th>Required Sample Size/Group</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for effect in sample_sizes_for_effects %}
+            <tr>
+                <td>{{ "%.0f%"|format(effect.relative_effect) }}</td>
+                <td>{{ "%.3f%"|format(effect.absolute_effect * 100) }}pp</td>
+                <td>{{ "{:,}"|format(effect.sample_size_needed) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="interpretation-section">
+    <h3>💡 Interpretation</h3>
+    <p><strong>Standard Deviation:</strong> {{ "%.4f"|format(std_dev) }} for a {{ "%.2f%"|format(baseline_rate * 100) }} conversion rate with {{ "{:,}"|format(sample_size) }} visitors per group.</p>
+    
+    <p><strong>Minimum Detectable Effect:</strong> With your current sample size, you can reliably detect changes of {{ "%.1f%"|format(mde_relative) }} or larger (e.g., from {{ "%.2f%"|format(baseline_rate * 100) }} to {{ "%.2f%"|format((baseline_rate + mde_absolute) * 100) }}).</p>
+</div>
+{% endif %}
+
+<!-- Common sections for all methods -->
+<div class="usage-recommendations">
+    <h3>🎯 Use This Result in A/B Testing</h3>
+    <div class="recommendation-cards">
+        <div class="recommendation-card">
+            <h4>Fixed Horizon Testing</h4>
+            <p>Use <strong>{{ "%.4f"|format(std_dev if method == 'data' else estimated_std_iqr if method == 'percentiles' else estimated_std) }}</strong> as your standard deviation in the <a href="/sample-size-calculator">Sample Size Calculator</a>.</p>
+        </div>
+        
+        <div class="recommendation-card">
+            <h4>Sequential Testing (mSPRT)</h4>
+            <p>Enter <strong>{{ "%.4f"|format(std_dev if method == 'data' else estimated_std_iqr if method == 'percentiles' else estimated_std) }}</strong> as {% if method == 'data' %}a known{% else %}an estimated{% endif %} standard deviation in the <a href="/sequential-calculator">Sequential Calculator</a>.</p>
+        </div>
+    </div>
+</div>
+
+{% if method != 'data' %}
+<div class="improvement-suggestions">
+    <h3>🔍 Improve Your Estimate</h3>
+    <div class="suggestions-grid">
+        <div class="suggestion-item">
+            <strong>Collect More Data:</strong> Gather {{ sample_size_for_std_estimation(0.1)['n_required'] if 'sample_size_for_std_estimation' in globals() else '50-100' }} actual data points for a precise estimate within ±10%.
+        </div>
+        <div class="suggestion-item">
+            <strong>Pilot Study:</strong> Run a small test first to get better variance estimates.
+        </div>
+        <div class="suggestion-item">
+            <strong>Historical Data:</strong> Look for similar metrics from past experiments.
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="next-steps">
+    <h3>🚀 Next Steps</h3>
+    <div class="step-buttons">
+        <a href="/sample-size-calculator" class="step-button">
+            📊 Calculate Sample Size<br>
+            <small>Use this std dev for fixed horizon tests</small>
+        </a>
+        <a href="/sequential-calculator" class="step-button">
+            🔄 Plan Sequential Test<br>
+            <small>Use this std dev for mSPRT testing</small>
+        </a>
+        <a href="/std-calculator" class="step-button">
+            📏 Calculate Another<br>
+            <small>Try a different estimation method</small>
+        </a>
+    </div>
+</div>
+
+<div class="navigation-links">
+    <a href="/std-calculator">← Calculate Another</a>
+    <a href="/">← Back to Dashboard</a>
+</div>
+{% endblock %}
