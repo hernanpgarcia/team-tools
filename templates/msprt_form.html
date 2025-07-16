@@ -32,7 +32,7 @@
                     <input type="radio" name="std_known" value="estimated" checked>
                     <strong>Estimated from pilot data/historical data</strong>
                 </label>
-                <small>Recommended: Uses Welch's t-test for robustness</small>
+                <small>Recommended: Uses Welch's t-test for robustness (assumes std = 30% of baseline mean)</small>
             </div>
             
             <div class="radio-group">
@@ -40,7 +40,7 @@
                     <input type="radio" name="std_known" value="unknown">
                     <strong>Unknown (use robust methods)</strong>
                 </label>
-                <small>Conservative estimation with robust sequential boundaries</small>
+                <small>Conservative estimation with robust sequential boundaries (assumes std = 50% of baseline mean)</small>
             </div>
         </div>
     </div>
