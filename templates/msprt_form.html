@@ -95,15 +95,15 @@
         </div>
 
         <div class="form-group">
-            <label for="max_n"><strong>Maximum Sample Size per Group:</strong></label>
-            <input type="number" name="max_n" id="max_n" required placeholder="e.g., 10000">
-            <small>Safety cap to prevent infinite testing</small>
+            <label for="weekly_visitors"><strong>Weekly Visitors per Group:</strong></label>
+            <input type="number" name="weekly_visitors" id="weekly_visitors" required placeholder="e.g., 1000">
+            <small>How many visitors you expect in each group per week</small>
         </div>
 
         <div class="form-group">
-            <label for="min_n"><strong>Minimum Sample Size per Group:</strong></label>
-            <input type="number" name="min_n" id="min_n" value="100" placeholder="e.g., 100">
-            <small>Minimum before any analysis (prevents early false positives)</small>
+            <label for="max_weeks"><strong>Maximum Test Duration (weeks):</strong></label>
+            <input type="number" name="max_weeks" id="max_weeks" value="8" required placeholder="e.g., 8">
+            <small>Maximum time you want to run the test before making a decision</small>
         </div>
     </div>
 

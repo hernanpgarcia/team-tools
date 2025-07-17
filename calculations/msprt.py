@@ -16,6 +16,8 @@ def calculate_msprt_plan(
     beta,
     max_n,
     min_n,
+    weekly_visitors=None,
+    max_weeks=None,
 ):
     """
     Calculate mSPRT sequential testing plan
@@ -30,9 +32,11 @@ def calculate_msprt_plan(
         beta: Type II error rate
         max_n: Maximum sample size per group
         min_n: Minimum sample size per group
+        weekly_visitors: Visitors per group per week (optional)
+        max_weeks: Maximum test duration in weeks (optional)
 
     Returns:
-        Dictionary with mSPRT plan and monitoring table
+        Dictionary with mSPRT plan and weekly monitoring table
     """
 
     # Handle standard deviation scenarios
@@ -86,15 +90,38 @@ def calculate_msprt_plan(
     expected_n_h0 = max(min_n, min(abs(expected_n_h0), max_n))
 
     # Generate monitoring points
-    monitoring_points = _generate_monitoring_table(
-        baseline_std,
-        absolute_improvement,
-        baseline_mean,
-        alpha,
-        min_n,
-        max_n,
-        use_t_test,
-    )
+    if weekly_visitors and max_weeks:
+        monitoring_points = _generate_weekly_monitoring_table(
+            baseline_std,
+            absolute_improvement,
+            baseline_mean,
+            alpha,
+            weekly_visitors,
+            max_weeks,
+            use_t_test,
+        )
+    else:
+        monitoring_points = _generate_monitoring_table(
+            baseline_std,
+            absolute_improvement,
+            baseline_mean,
+            alpha,
+            min_n,
+            max_n,
+            use_t_test,
+        )
+
+    # Calculate expected timeline for 50% of the effect
+    half_effect = absolute_improvement / 2
+    half_effect_size = calculate_effect_size(baseline_mean, baseline_mean + half_effect, baseline_std)
+    
+    if abs(half_effect_size) > 0.001:
+        expected_n_half_effect = (log_A * (1 - beta) + log_B * beta) / (
+            half_effect_size * half_effect / (baseline_std**2)
+        )
+        expected_n_half_effect = max(min_n, min(abs(expected_n_half_effect), max_n))
+    else:
+        expected_n_half_effect = max_n
 
     return {
         "baseline_mean": baseline_mean,
@@ -112,10 +139,13 @@ def calculate_msprt_plan(
         "B": B,
         "expected_n_h0": expected_n_h0,
         "expected_n_h1": expected_n_h1,
+        "expected_n_half_effect": expected_n_half_effect,
         "max_n": max_n,
         "min_n": min_n,
         "monitoring_points": monitoring_points,
         "efficiency_gain": ((max_n - expected_n_h1) / max_n * 100),
+        "weekly_visitors": weekly_visitors,
+        "max_weeks": max_weeks,
     }
 
 
@@ -173,4 +203,78 @@ def _generate_monitoring_table(
             }
         )
 
+    return monitoring_points
+
+
+def _generate_weekly_monitoring_table(
+    baseline_std, absolute_improvement, baseline_mean, alpha, weekly_visitors, max_weeks, use_t_test
+):
+    """Generate weekly monitoring table with simple status explanations"""
+    monitoring_points = []
+    
+    for week in range(1, max_weeks + 1):
+        n = weekly_visitors * week
+        
+        # Standard error at this sample size
+        se = baseline_std * math.sqrt(2 / n)
+        
+        # Calculate boundaries
+        if use_t_test:
+            df = 2 * n - 2
+            t_alpha = t_ppf(df, 1 - alpha / 2) if df > 2 else 3.0
+            boundary_upper = t_alpha * se
+        else:
+            z_alpha = norm_ppf(1 - alpha / 2)
+            boundary_upper = z_alpha * se
+        
+        # Confidence intervals
+        ci_margin = abs(boundary_upper)
+        ci_lower = absolute_improvement - ci_margin
+        ci_upper = absolute_improvement + ci_margin
+        
+        rel_ci_lower = (ci_lower / baseline_mean) * 100
+        rel_ci_upper = (ci_upper / baseline_mean) * 100
+        
+        # mSPRT decision logic - compare absolute improvement against boundaries
+        # For positive improvements, we need the observed difference to exceed the boundary
+        observed_effect = absolute_improvement  # This is what we expect to observe if the effect is real
+        
+        # Decision boundary represents the minimum detectable difference at this sample size
+        min_detectable_effect = boundary_upper
+        
+        # Status based on mSPRT logic
+        if abs(observed_effect) >= min_detectable_effect:
+            if observed_effect > 0:
+                status = "✅ Significant Improvement"
+                if abs(observed_effect) > min_detectable_effect * 1.1:  # 10% buffer for "clearly detectable"
+                    explanation = f"The {observed_effect:.3f} improvement is clearly detectable. You can confidently implement this change."
+                else:
+                    explanation = f"The {observed_effect:.3f} improvement is just detectable. This is the minimum reliable improvement we can confirm."
+            else:
+                status = "❌ Significant Decline"
+                if abs(observed_effect) > min_detectable_effect * 1.1:
+                    explanation = f"The {abs(observed_effect):.3f} decline is clearly detectable. You should keep the current version."
+                else:
+                    explanation = f"The {abs(observed_effect):.3f} decline is just detectable. This is the minimum reliable decline we can confirm."
+        else:
+            status = "⏳ Keep Testing"
+            # Convert to relative percentage for easier understanding
+            min_detectable_percent = (min_detectable_effect / baseline_mean) * 100
+            expected_percent = (abs(observed_effect) / baseline_mean) * 100
+            explanation = f"Can detect effects ≥{min_detectable_percent:.1f}%, but expecting {expected_percent:.1f}%. Need more data to detect smaller effects."
+        
+        monitoring_points.append({
+            "week": week,
+            "n": n,
+            "se": se,
+            "boundary_upper": boundary_upper,
+            "boundary_lower": -boundary_upper,
+            "ci_lower": ci_lower,
+            "ci_upper": ci_upper,
+            "rel_ci_lower": rel_ci_lower,
+            "rel_ci_upper": rel_ci_upper,
+            "status": status,
+            "explanation": explanation,
+        })
+    
     return monitoring_points

@@ -172,20 +172,19 @@ def calculate_msprt_route():
             request.form.get("beta"), "Type II error (beta)", min_val=0.001, max_val=0.5
         )
 
-        max_n = validate_numeric_input(
-            request.form.get("max_n"), "Maximum sample size", min_val=10
+        weekly_visitors = validate_numeric_input(
+            request.form.get("weekly_visitors"), "Weekly visitors per group", min_val=10
         )
-        max_n = int(max_n)
+        weekly_visitors = int(weekly_visitors)
 
-        min_n = validate_numeric_input(
-            request.form.get("min_n"), "Minimum sample size", min_val=2
+        max_weeks = validate_numeric_input(
+            request.form.get("max_weeks"), "Maximum test duration (weeks)", min_val=1, max_val=52
         )
-        min_n = int(min_n)
+        max_weeks = int(max_weeks)
 
-        if min_n >= max_n:
-            raise ValueError(
-                "Minimum sample size must be less than maximum sample size"
-            )
+        # Calculate sample size parameters from weekly visitors
+        max_n = weekly_visitors * max_weeks
+        min_n = weekly_visitors  # Start analyzing after first week
 
         std_known = request.form.get("std_known")
         if std_known not in ["known", "estimated", "unknown"]:
@@ -221,7 +220,7 @@ def calculate_msprt_route():
             )
 
         logger.info(
-            f"Validated inputs: baseline_mean={baseline_mean}, alpha={alpha}, beta={beta}, max_n={max_n}, min_n={min_n}"
+            f"Validated inputs: baseline_mean={baseline_mean}, weekly_visitors={weekly_visitors}, max_weeks={max_weeks}, alpha={alpha}, beta={beta}"
         )
 
         # Calculate mSPRT plan
@@ -235,6 +234,8 @@ def calculate_msprt_route():
             beta,
             max_n,
             min_n,
+            weekly_visitors,
+            max_weeks,
         )
 
         logger.info("mSPRT calculation completed successfully")

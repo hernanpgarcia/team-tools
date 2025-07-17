@@ -29,7 +29,22 @@
     </div>
 
     <div class="results-section highlight">
-        <h3>🎯 Expected Performance</h3>
+        <h3>🎯 Expected Timeline</h3>
+        {% if weekly_visitors %}
+        <div class="expected-performance">
+            <div class="performance-item">
+                <div class="performance-label"><strong>Average case</strong><br>(Full improvement)</div>
+                <div class="performance-value">~{{ "%.0f"|format(expected_n_h1 / weekly_visitors) }} weeks</div>
+            </div>
+            <div class="performance-item">
+                <div class="performance-label"><strong>Worst case</strong><br>(50% improvement)</div>
+                <div class="performance-value">~{{ "%.0f"|format(expected_n_half_effect / weekly_visitors) }} weeks</div>
+            </div>
+        </div>
+        <div class="efficiency-highlight">
+            <strong>Note:</strong> This is the theoretical average. The actual decision week depends on your real data results.
+        </div>
+        {% else %}
         <div class="expected-performance">
             <div class="performance-item">
                 <div class="performance-label">If no effect exists (H₀)</div>
@@ -43,9 +58,60 @@
         <div class="efficiency-highlight">
             <strong>Efficiency Gain:</strong> Up to {{ "%.0f%%"|format(efficiency_gain) }} reduction in sample size when effect exists
         </div>
+        {% endif %}
     </div>
 </div>
 
+{% if weekly_visitors %}
+<div class="monitoring-section">
+    <h3>📅 Weekly Monitoring Plan</h3>
+    <p class="monitoring-description">
+        With <strong>{{ weekly_visitors }}</strong> visitors per group per week, here's when you can make decisions based on your actual test results:
+    </p>
+    
+    <div class="table-container">
+        <table class="weekly-monitoring-table">
+            <thead>
+                <tr>
+                    <th>Week</th>
+                    <th>Sample Size</th>
+                    <th>Min Detectable Effect</th>
+                    <th>Decision Status</th>
+                    <th>What This Means</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for point in monitoring_points %}
+                <tr class="{% if point.status == '✅ Significant Improvement' %}success{% elif point.status == '❌ Significant Decline' %}danger{% else %}warning{% endif %}">
+                    <td><strong>{{ point.week }}</strong></td>
+                    <td>{{ "%.0f"|format(point.n) }}</td>
+                    <td>{{ "%.1f%%"|format((point.boundary_upper / baseline_mean) * 100) }}</td>
+                    <td>{{ point.status }}</td>
+                    <td>{{ point.explanation }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="monitoring-legend">
+        <h4>📖 How to Read This Table:</h4>
+        <ul>
+            <li><strong>Min Detectable Effect:</strong> The smallest improvement we can reliably detect at this week</li>
+            <li><strong>✅ Significant Improvement:</strong> You can stop the test and implement the change</li>
+            <li><strong>❌ Significant Decline:</strong> You can stop the test and keep the current version</li>
+            <li><strong>⏳ Keep Testing:</strong> Results are not clear yet, continue to next week</li>
+        </ul>
+        
+        <div class="timeline-explanation">
+            <h4>📊 Expected vs. Actual Timeline:</h4>
+            <p><strong>Expected Timeline</strong> shows the theoretical average when an effect exists.<br>
+            <strong>Weekly Monitoring</strong> shows the earliest possible decision points based on statistical power.<br>
+            Your actual results may enable earlier or later decisions depending on the data.</p>
+        </div>
+    </div>
+</div>
+{% else %}
 <div class="monitoring-section">
     <h3>📊 Sequential Monitoring Plan</h3>
     <div class="table-container">
@@ -73,6 +139,7 @@
         </table>
     </div>
 </div>
+{% endif %}
 
 <div class="implementation-guide">
     <h3>📋 mSPRT Implementation Guide</h3>
