@@ -11,7 +11,7 @@
         <table class="results-table">
             <tr><td><strong>Baseline Mean:</strong></td><td>{{ baseline_mean }}</td></tr>
             <tr><td><strong>Standard Deviation:</strong></td><td>{{ "%.3f"|format(baseline_std) }} ({{ std_method }})</td></tr>
-            <tr><td><strong>Expected Improvement:</strong></td><td>{{ "{:+.3f}"|format(absolute_improvement) }} ({{ "{:+.1f}%"|format(relative_improvement) }})</td></tr>
+            <tr><td><strong>Expected Improvement:</strong></td><td>{{ "%+.3f"|format(absolute_improvement) }} ({{ "%+.1f%%"|format(relative_improvement) }})</td></tr>
             <tr><td><strong>Effect Size (Cohen's d):</strong></td><td>{{ "%.3f"|format(effect_size) }}</td></tr>
             <tr><td><strong>Test Method:</strong></td><td>{{ "Welch's t-test" if use_t_test else "Z-test" }}</td></tr>
         </table>
@@ -20,9 +20,9 @@
     <div class="results-section">
         <h3>📈 mSPRT Parameters</h3>
         <table class="results-table">
-            <tr><td><strong>Type I Error (α):</strong></td><td>{{ "{:.1f}%"|format(alpha*100) }}</td></tr>
-            <tr><td><strong>Type II Error (β):</strong></td><td>{{ "{:.1f}%"|format(beta*100) }}</td></tr>
-            <tr><td><strong>Power:</strong></td><td>{{ "{:.1f}%"|format(power*100) }}</td></tr>
+            <tr><td><strong>Type I Error (α):</strong></td><td>{{ "%.1f%%"|format(alpha*100) }}</td></tr>
+            <tr><td><strong>Type II Error (β):</strong></td><td>{{ "%.1f%%"|format(beta*100) }}</td></tr>
+            <tr><td><strong>Power:</strong></td><td>{{ "%.1f%%"|format(power*100) }}</td></tr>
             <tr><td><strong>Upper Threshold (A):</strong></td><td>{{ "%.2f"|format(A) }}</td></tr>
             <tr><td><strong>Lower Threshold (B):</strong></td><td>{{ "%.4f"|format(B) }}</td></tr>
         </table>
@@ -33,15 +33,15 @@
         <div class="expected-performance">
             <div class="performance-item">
                 <div class="performance-label">If no effect exists (H₀)</div>
-                <div class="performance-value">~{{ "{:,.0f}"|format(expected_n_h0) }} samples/group</div>
+                <div class="performance-value">~{{ "%.0f"|format(expected_n_h0) }} samples/group</div>
             </div>
             <div class="performance-item">
                 <div class="performance-label">If effect exists (H₁)</div>
-                <div class="performance-value">~{{ "{:,.0f}"|format(expected_n_h1) }} samples/group</div>
+                <div class="performance-value">~{{ "%.0f"|format(expected_n_h1) }} samples/group</div>
             </div>
         </div>
         <div class="efficiency-highlight">
-            <strong>Efficiency Gain:</strong> Up to {{ "{:.0f}%"|format(efficiency_gain) }} reduction in sample size when effect exists
+            <strong>Efficiency Gain:</strong> Up to {{ "%.0f%%"|format(efficiency_gain) }} reduction in sample size when effect exists
         </div>
     </div>
 </div>
@@ -62,10 +62,10 @@
             <tbody>
                 {% for point in monitoring_points %}
                 <tr>
-                    <td>{{ "{:,}"|format(point.n) }}</td>
+                    <td>{{ "%.0f"|format(point.n) }}</td>
                     <td>±{{ "%.4f"|format(point.boundary_upper) }}</td>
-                    <td>[{{ "{:+.3f}"|format(point.ci_lower) }}, {{ "{:+.3f}"|format(point.ci_upper) }}]</td>
-                    <td>[{{ "{:+.1f}%"|format(point.rel_ci_lower) }}, {{ "{:+.1f}%"|format(point.rel_ci_upper) }}]</td>
+                    <td>[{{ "%+.3f"|format(point.ci_lower) }}, {{ "%+.3f"|format(point.ci_upper) }}]</td>
+                    <td>[{{ "%+.1f%%"|format(point.rel_ci_lower) }}, {{ "%+.1f%%"|format(point.rel_ci_upper) }}]</td>
                     <td>{{ "%.4f"|format(point.se) }}</td>
                 </tr>
                 {% endfor %}
@@ -80,7 +80,7 @@
         <div class="step">
             <div class="step-number">1</div>
             <div class="step-content">
-                <strong>Collect minimum samples:</strong> Wait until you have at least {{ "{:,}"|format(min_n) }} samples per group
+                <strong>Collect minimum samples:</strong> Wait until you have at least {{ "%.0f"|format(min_n) }} samples per group
             </div>
         </div>
         <div class="step">
@@ -103,7 +103,7 @@
         <div class="step">
             <div class="step-number">4</div>
             <div class="step-content">
-                <strong>Safety cap:</strong> Stop at {{ "{:,}"|format(max_n) }} samples per group maximum
+                <strong>Safety cap:</strong> Stop at {{ "%.0f"|format(max_n) }} samples per group maximum
             </div>
         </div>
     </div>
@@ -113,10 +113,10 @@
     <h3>💡 mSPRT Advantages</h3>
     <div class="advantages-list">
         <div class="advantage">
-            <strong>Always valid:</strong> Type I error rate exactly controlled at {{ "{:.1f}%"|format(alpha*100) }}
+            <strong>Always valid:</strong> Type I error rate exactly controlled at {{ "%.1f%%"|format(alpha*100) }}
         </div>
         <div class="advantage">
-            <strong>Continuous monitoring:</strong> Check results at any sample size ≥ {{ "{:,}"|format(min_n) }}
+            <strong>Continuous monitoring:</strong> Check results at any sample size ≥ {{ "%.0f"|format(min_n) }}
         </div>
         <div class="advantage">
             <strong>Optimal efficiency:</strong> Minimizes expected sample size

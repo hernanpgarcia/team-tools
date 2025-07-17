@@ -9,13 +9,13 @@
 <form method="POST" action="/calculate-msprt" class="calculator-form">
     <div class="form-section">
         <h3>📊 Test Parameters</h3>
-        
+
         <div class="form-group">
             <label for="baseline_mean"><strong>Baseline Mean:</strong></label>
             <input type="number" step="any" name="baseline_mean" id="baseline_mean" required placeholder="e.g., 2.5">
             <small>The current average value of your metric</small>
         </div>
-        
+
         <div class="form-group">
             <label><strong>Standard Deviation:</strong></label>
             <div class="radio-group">
@@ -26,7 +26,7 @@
                 <input type="number" step="any" name="baseline_std" placeholder="e.g., 0.8">
                 <small>Use when you have historical data or pilot studies</small>
             </div>
-            
+
             <div class="radio-group">
                 <label>
                     <input type="radio" name="std_known" value="estimated" checked>
@@ -34,7 +34,7 @@
                 </label>
                 <small>Recommended: Uses Welch's t-test for robustness (assumes std = 30% of baseline mean)</small>
             </div>
-            
+
             <div class="radio-group">
                 <label>
                     <input type="radio" name="std_known" value="unknown">
@@ -47,7 +47,7 @@
 
     <div class="form-section">
         <h3>📈 Expected Improvement</h3>
-        
+
         <div class="form-group">
             <div class="radio-group">
                 <label>
@@ -58,7 +58,7 @@
                 <small>Direct change in metric value</small>
             </div>
         </div>
-        
+
         <div class="form-group">
             <div class="radio-group">
                 <label>
@@ -73,7 +73,7 @@
 
     <div class="form-section">
         <h3>⚙️ mSPRT Parameters</h3>
-        
+
         <div class="form-group">
             <label for="alpha"><strong>Type I Error (Alpha):</strong></label>
             <select name="alpha" id="alpha">
@@ -83,7 +83,7 @@
             </select>
             <small>Probability of false positive (strictly controlled)</small>
         </div>
-        
+
         <div class="form-group">
             <label for="beta"><strong>Type II Error (Beta):</strong></label>
             <select name="beta" id="beta">
@@ -93,20 +93,20 @@
             </select>
             <small>Probability of missing a true effect</small>
         </div>
-        
+
         <div class="form-group">
             <label for="max_n"><strong>Maximum Sample Size per Group:</strong></label>
             <input type="number" name="max_n" id="max_n" required placeholder="e.g., 10000">
             <small>Safety cap to prevent infinite testing</small>
         </div>
-        
+
         <div class="form-group">
             <label for="min_n"><strong>Minimum Sample Size per Group:</strong></label>
             <input type="number" name="min_n" id="min_n" value="100" placeholder="e.g., 100">
             <small>Minimum before any analysis (prevents early false positives)</small>
         </div>
     </div>
-    
+
     <button type="submit">Calculate mSPRT Boundaries</button>
 </form>
 
@@ -126,7 +126,7 @@
             <strong>🛡️ Robust:</strong> Handles unknown variance better than fixed horizon tests
         </div>
     </div>
-    
+
     <h4>When to Use Sequential Testing:</h4>
     <ul>
         <li><strong>Continuous monitoring:</strong> Want to check results regularly</li>

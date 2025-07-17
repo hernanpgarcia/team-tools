@@ -1,114 +1,89 @@
-# Team Tools Dashboard
+# 🧮 Team Tools Calculator
 
-A Flask-based web application providing statistical tools for A/B testing and data analysis. This toolkit offers comprehensive solutions for sample size calculations, sequential testing, and standard deviation estimation.
+A simple, powerful web calculator for A/B testing and statistical analysis. Perfect for product teams, data analysts, and researchers who need reliable statistical tools without complex software.
 
-## Features
+## 🚀 Quick Start
 
-### 🧮 Sample Size Calculator (Fixed Horizon)
-Calculate required sample sizes for traditional A/B tests with fixed endpoints.
-- Supports both absolute and relative improvement scenarios
-- Configurable statistical power (80%, 90%, etc.) and significance levels
-- Handles unknown standard deviation with robust estimation
-- Provides confidence intervals for effect sizes
-- Uses Welch's T-test framework for reliable results
+**New to this project?** Read the **[PROJECT_SETUP.md](PROJECT_SETUP.md)** for complete setup instructions.
 
-### 🔄 Sequential Testing (mSPRT)
-Plan experiments that can be stopped early when results become conclusive.
-- Mixed Sequential Probability Ratio Test (mSPRT) framework
-- Continuous monitoring without alpha inflation issues
-- Efficiency gains through early stopping
-- Robust variance handling for unknown standard deviations
-- Generates monitoring plans with decision boundaries
+**Already set up?** Run: `python run_app.py` and go to http://localhost:5000
 
-### 📊 Standard Deviation Calculator
-Comprehensive tools for estimating and calculating standard deviations when data is limited.
-- Calculate from raw data points
-- Estimate from min/max ranges using multiple methods
-- Derive from percentiles (quartiles) for better accuracy
-- Specialized conversion rate standard deviation calculations
-- Sample size requirements for standard deviation estimation
+## 🛠️ What This Calculator Can Do
 
-## Project Structure
+### 📊 Sample Size Calculator
+Calculate how many participants you need for your A/B test:
+- **Input**: Your expected improvement and baseline metrics
+- **Output**: Required sample size for reliable results
+- **Features**: Handles unknown standard deviation, provides confidence intervals
 
-### Core Application Files
-- **`app.py`** - Main Flask application with all routes and request handling
-- **`app_old.py`** - Previous version of the application (backup)
+### 🔄 Sequential Testing Calculator  
+Plan experiments that can stop early when results are clear:
+- **Input**: Test parameters and monitoring preferences
+- **Output**: Monitoring plan with decision boundaries
+- **Features**: Reduces sample size needs, continuous monitoring
 
-### Calculation Modules (`calculations/`)
-- **`__init__.py`** - Package initialization (currently empty)
-- **`fixed_horizon.py`** - Sample size calculations for traditional A/B tests
-- **`msprt.py`** - Sequential testing calculations and monitoring plans  
-- **`statistics.py`** - Core statistical functions (normal/t-distributions, effect sizes)
-- **`std_calculator.py`** - Standard deviation estimation and calculation utilities
+### 📈 Standard Deviation Calculator
+Estimate data variability when you don't have complete data:
+- **From data points**: Calculate from your actual data
+- **From ranges**: Estimate from min/max values
+- **From percentiles**: Use quartiles for better estimates
+- **For conversion rates**: Specialized calculations for A/B tests
 
-### Frontend (`templates/`)
-- **`base.html`** - Base template with common layout and navigation
-- **`home.html`** - Landing page with tool descriptions and navigation
-- **`error.html`** - Error page template for handling exceptions
-- **`fixed_horizon_form.html`** - Input form for sample size calculator
-- **`msprt_form.html`** - Input form for sequential testing planner
-- **`msprt_results.html`** - Results display for sequential testing
-- **`std_calculator_form.html`** - Input form for standard deviation tools
-- **`std_calculator_results.html`** - Results display for standard deviation calculations
+## 📁 Project Files
 
-### Styling (`static/`)
-- **`style.css`** - Complete stylesheet with modern, responsive design
+```
+team-tools/
+├── 📖 PROJECT_SETUP.md        # Complete setup guide (READ THIS FIRST!)
+├── 🚀 setup.py              # Automated setup script
+├── ▶️  run_app.py            # Easy way to start the calculator
+├── ✅ quick_test.py          # Test if everything works
+├── 🧮 app.py                # Main calculator application
+├── 📋 requirements.txt       # Required software packages
+├── 🔧 calculations/          # Calculator logic
+├── 🎨 templates/            # Web pages
+├── 🎯 tests/                # Automated tests
+└── 📊 static/               # Styling
+```
 
-### Environment
-- **`venv/`** - Python virtual environment (development dependencies)
+## 🎯 Common Use Cases
 
-## Key Mathematical Capabilities
+- **Product Managers**: "How many users do I need to test my new feature?"
+- **Data Analysts**: "What's the standard deviation of this metric?"
+- **Researchers**: "Can I stop this experiment early?"
+- **Marketing Teams**: "How long should I run this campaign test?"
 
-### Sample Size Calculations
-- Power analysis using normal and t-distributions
-- Effect size calculations (Cohen's d)
-- Two-sided and one-sided test support
-- Confidence interval estimation
+## 🔧 Need Help?
 
-### Sequential Testing
-- mSPRT boundary calculations
-- Expected sample size under null and alternative hypotheses
-- Monitoring tables with decision points
-- Type I and Type II error control
+1. **Setup Issues**: Read [PROJECT_SETUP.md](PROJECT_SETUP.md) - it has detailed troubleshooting
+2. **Calculator Not Working**: Run `python quick_test.py` to check for problems
+3. **Want to Update**: Run `python setup.py` to reinstall everything
 
-### Standard Deviation Estimation
-- Sample standard deviation from raw data
-- Range-based estimation (Range Rule, Six Sigma Rule)
-- Quartile-based estimation (IQR method)
-- Binomial proportion standard deviations
-- Theoretical vs. observed variance analysis
+## 🎉 Features
 
-## Installation & Usage
+✅ **No coding required** - Just point, click, and calculate  
+✅ **Comprehensive testing** - Over 120 automated tests ensure reliability  
+✅ **Error handling** - Clear error messages help you fix input problems  
+✅ **Professional results** - Detailed output with explanations  
+✅ **Mobile friendly** - Works on phones, tablets, and computers  
+✅ **Offline capable** - Runs on your computer, no internet needed  
 
-1. **Setup Environment**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   pip install flask
-   ```
+## 📊 Mathematical Reliability
 
-2. **Run Application**
-   ```bash
-   python app.py
-   ```
+All calculations use industry-standard statistical methods:
+- **Normal and t-distributions** for sample size calculations
+- **Cohen's d** for effect size analysis
+- **mSPRT framework** for sequential testing
+- **Welch's t-test** for unequal variances
+- **Conservative estimates** when data is uncertain
 
-3. **Access Tools**
-   - Navigate to `http://localhost:5000`
-   - Choose from available calculators on the home page
+## 🚀 Getting Started
 
-## Use Cases
+1. **First time?** Follow [PROJECT_SETUP.md](PROJECT_SETUP.md) step-by-step
+2. **Already set up?** Run `python run_app.py`
+3. **Having issues?** Run `python quick_test.py` to check for problems
 
-- **Product Teams**: A/B test planning and analysis
-- **Data Scientists**: Statistical power analysis and sample size determination
-- **Researchers**: Sequential experiment design and monitoring
-- **Analysts**: Standard deviation estimation from limited data
+Your calculator will be available at: **http://localhost:5000**
 
-## Technical Implementation
+---
 
-The application uses a modular architecture with separated concerns:
-- Flask handles web routing and user interface
-- Mathematical calculations are isolated in dedicated modules
-- Templates provide a clean, responsive user experience
-- Error handling ensures robust user feedback
-
-All statistical calculations are implemented from scratch using fundamental mathematical principles, ensuring transparency and customizability for specific use cases.
+*Built with reliability in mind - over 120 tests ensure your calculations are always correct!* ✅

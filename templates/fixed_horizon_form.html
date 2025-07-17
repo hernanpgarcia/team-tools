@@ -9,13 +9,13 @@
 <form method="POST" action="/calculate-sample-size" class="calculator-form">
     <div class="form-section">
         <h3>📊 Test Parameters</h3>
-        
+
         <div class="form-group">
             <label for="baseline_mean"><strong>Baseline Mean:</strong></label>
             <input type="number" step="any" name="baseline_mean" id="baseline_mean" required placeholder="e.g., 2.5">
             <small>The current average value of your metric</small>
         </div>
-        
+
         <div class="form-group">
             <label for="baseline_std"><strong>Standard Deviation (if known):</strong></label>
             <input type="number" step="any" name="baseline_std" id="baseline_std" placeholder="e.g., 0.8">
@@ -25,7 +25,7 @@
 
     <div class="form-section">
         <h3>📈 Expected Improvement</h3>
-        
+
         <div class="form-group">
             <div class="radio-group">
                 <label>
@@ -36,7 +36,7 @@
                 <small>Direct change in metric value</small>
             </div>
         </div>
-        
+
         <div class="form-group">
             <div class="radio-group">
                 <label>
@@ -51,7 +51,7 @@
 
     <div class="form-section">
         <h3>⚙️ Statistical Parameters</h3>
-        
+
         <div class="form-group">
             <label for="power"><strong>Statistical Power:</strong></label>
             <select name="power" id="power">
@@ -62,7 +62,7 @@
             </select>
             <small>Probability of detecting an effect if it exists</small>
         </div>
-        
+
         <div class="form-group">
             <label for="alpha"><strong>Significance Level (Alpha):</strong></label>
             <select name="alpha" id="alpha">
@@ -72,7 +72,7 @@
             </select>
             <small>Probability of false positive (Type I error)</small>
         </div>
-        
+
         <div class="form-group">
             <label for="test_type"><strong>Test Type:</strong></label>
             <select name="test_type" id="test_type">
@@ -82,7 +82,7 @@
             <small>Whether you care about direction of change</small>
         </div>
     </div>
-    
+
     <button type="submit">Calculate Sample Size</button>
 </form>
 
@@ -94,7 +94,7 @@
         <li><strong>Regulatory requirements:</strong> When protocols require pre-specified sample sizes</li>
         <li><strong>Simple implementation:</strong> Easier to execute than sequential testing</li>
     </ul>
-    
+
     <p><strong>Alternative:</strong> Consider <a href="/sequential-calculator">Sequential Testing (mSPRT)</a> if you want the flexibility to stop early or monitor continuously.</p>
 </div>
 

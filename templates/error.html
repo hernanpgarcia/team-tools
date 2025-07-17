@@ -5,12 +5,12 @@
 {% block content %}
 <div class="error-container">
     <h2>⚠️ Calculation Error</h2>
-    
+
     <div class="error-message">
         <p><strong>There was an error with your calculation:</strong></p>
         <p class="error-details">{{ error_message }}</p>
     </div>
-    
+
     <div class="error-suggestions">
         <h3>💡 Common Issues:</h3>
         <ul>
@@ -21,12 +21,12 @@
             <li><strong>Effect size too small:</strong> Very small effect sizes may require unrealistic sample sizes</li>
         </ul>
     </div>
-    
+
     <div class="error-actions">
         <a href="{{ back_url }}" class="error-button">← Try Again</a>
         <a href="/" class="error-button">← Back to Dashboard</a>
     </div>
-    
+
     <div class="help-section">
         <h3>Need Help?</h3>
         <p>If you continue to experience issues, try these troubleshooting steps:</p>

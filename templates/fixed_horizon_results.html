@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Sample Size Calculator Results{% endblock %}
+
+{% block content %}
+<h2>Sample Size Calculator Results</h2>
+
+<div class="results-grid">
+    <div class="results-section">
+        <h3>📊 Test Configuration</h3>
+        <table class="results-table">
+            <tr><td><strong>Baseline Mean:</strong></td><td>{{ baseline_mean }}</td></tr>
+            <tr><td><strong>Standard Deviation:</strong></td><td>{{ "%.3f"|format(baseline_std) }}{% if std_estimated %} (estimated){% endif %}</td></tr>
+            <tr><td><strong>Expected Test Mean:</strong></td><td>{{ "%.3f"|format(test_mean) }}</td></tr>
+            <tr><td><strong>Improvement:</strong></td><td>{{ "%+.3f"|format(absolute_improvement) }} ({{ "%+.1f%%"|format(relative_improvement) }})</td></tr>
+            <tr><td><strong>Effect Size (Cohen's d):</strong></td><td>{{ "%.3f"|format(effect_size) }}</td></tr>
+        </table>
+    </div>
+
+    <div class="results-section">
+        <h3>📈 Statistical Parameters</h3>
+        <table class="results-table">
+            <tr><td><strong>Statistical Power:</strong></td><td>{{ "%.1f%%"|format(power*100) }}</td></tr>
+            <tr><td><strong>Significance Level (α):</strong></td><td>{{ "%.1f%%"|format(alpha*100) }}</td></tr>
+            <tr><td><strong>Test Type:</strong></td><td>{{ test_type|title }}</td></tr>
+        </table>
+    </div>
+
+    <div class="results-section highlight">
+        <h3>🎯 Sample Size Requirements</h3>
+        <div class="sample-size-results">
+            <div class="sample-size-item">
+                <div class="sample-size-label">Per Group</div>
+                <div class="sample-size-value">{{ "%.0f"|format(sample_size_per_group) }}</div>
+            </div>
+            <div class="sample-size-item">
+                <div class="sample-size-label">Total Sample Size</div>
+                <div class="sample-size-value">{{ "%.0f"|format(total_sample_size) }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="effect-size-section">
+    <h3>📊 Effect Size Analysis</h3>
+    <div class="effect-size-info">
+        <p><strong>Cohen's d:</strong> {{ "%.3f"|format(effect_size) }}</p>
+        <p><strong>95% Confidence Interval:</strong> [{{ "%.3f"|format(effect_size_ci_lower) }}, {{ "%.3f"|format(effect_size_ci_upper) }}]</p>
+        
+        <div class="effect-size-interpretation">
+            <h4>Effect Size Interpretation:</h4>
+            <ul>
+                {% if effect_size < 0.2 %}
+                <li><strong>Small effect:</strong> May be difficult to detect practically</li>
+                {% elif effect_size < 0.5 %}
+                <li><strong>Small to medium effect:</strong> Typically detectable with adequate sample size</li>
+                {% elif effect_size < 0.8 %}
+                <li><strong>Medium to large effect:</strong> Should be readily detectable</li>
+                {% else %}
+                <li><strong>Large effect:</strong> Easily detectable with smaller sample sizes</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="implementation-guide">
+    <h3>📋 Implementation Guide</h3>
+    <div class="guide-steps">
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <strong>Randomize participants:</strong> Assign {{ "%.0f"|format(sample_size_per_group) }} participants to each group
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <strong>Run the test:</strong> Collect data until you reach the required sample size
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <strong>Analyze results:</strong> Perform {{ "a two-sample t-test" if test_type == "two-sided" else "a one-sided t-test" }} with α = {{ alpha }}
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <strong>Interpret results:</strong> Reject H₀ if p-value < {{ alpha }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="assumptions-section">
+    <h3>⚠️ Important Assumptions</h3>
+    <ul>
+        <li><strong>Normal distribution:</strong> Data should be approximately normally distributed</li>
+        <li><strong>Equal variances:</strong> Both groups should have similar variability</li>
+        <li><strong>Independent samples:</strong> Observations should be independent</li>
+        <li><strong>Single analysis:</strong> Perform statistical test only once at the end</li>
+        {% if std_estimated %}
+        <li><strong>Standard deviation estimate:</strong> Based on conservative estimate (50% of baseline mean)</li>
+        {% endif %}
+    </ul>
+</div>
+
+<div class="alternative-section">
+    <h3>💡 Alternative Approaches</h3>
+    <p>Consider <a href="/sequential-calculator">Sequential Testing (mSPRT)</a> if you want:</p>
+    <ul>
+        <li>Flexibility to stop early when results are conclusive</li>
+        <li>Continuous monitoring without alpha inflation</li>
+        <li>Potential reduction in required sample size</li>
+    </ul>
+</div>
+
+<div class="navigation-links">
+    <a href="/sample-size-calculator">← Calculate Another Sample Size</a>
+    <a href="/sequential-calculator">→ Try Sequential Testing</a>
+    <a href="/">← Back to Dashboard</a>
+</div>
+{% endblock %}

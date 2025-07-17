@@ -604,38 +604,38 @@ footer {
     body {
         padding: 10px;
     }
-    
+
     .results-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .tools-grid {
         grid-template-columns: 1fr;
     }
-    
+
     nav ul {
         flex-direction: column;
         gap: 10px;
     }
-    
+
     .sample-size-display {
         flex-direction: column;
         gap: 20px;
     }
-    
+
     .expected-performance {
         flex-direction: column;
         gap: 15px;
     }
-    
+
     .monitoring-table {
         font-size: 12px;
     }
-    
+
     .tab-buttons {
         flex-direction: column;
     }
-    
+
     .step-buttons {
         flex-direction: column;
     }

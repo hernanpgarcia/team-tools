@@ -20,7 +20,7 @@
             <h3>📊 Calculate from Raw Data</h3>
             <p><strong>Most Accurate:</strong> Use this when you have actual data points from your metric.</p>
         </div>
-        
+
         <form method="POST" action="/calculate-std-from-data" class="calculator-form">
             <div class="form-section">
                 <div class="form-group">
@@ -46,19 +46,19 @@ Or comma-separated: 2.3, 2.8, 1.9, 3.2, 2.1" required></textarea>
             <h3>📏 Estimate from Range</h3>
             <p><strong>Quick Estimate:</strong> Use when you only know the minimum and maximum values.</p>
         </div>
-        
+
         <form method="POST" action="/calculate-std-from-range" class="calculator-form">
             <div class="form-section">
                 <div class="form-group">
                     <label for="min_val"><strong>Minimum Value:</strong></label>
                     <input type="number" step="any" name="min_val" id="min_val" required placeholder="e.g., 1.2">
                 </div>
-                
+
                 <div class="form-group">
                     <label for="max_val"><strong>Maximum Value:</strong></label>
                     <input type="number" step="any" name="max_val" id="max_val" required placeholder="e.g., 4.8">
                 </div>
-                
+
                 <div class="form-group">
                     <label for="estimation_method"><strong>Estimation Method:</strong></label>
                     <select name="estimation_method" id="estimation_method">
@@ -78,7 +78,7 @@ Or comma-separated: 2.3, 2.8, 1.9, 3.2, 2.1" required></textarea>
             <h3>📈 Estimate from Quartiles</h3>
             <p><strong>Good Accuracy:</strong> Use when you know the 25th, 50th, and 75th percentiles of your data.</p>
         </div>
-        
+
         <form method="POST" action="/calculate-std-from-percentiles" class="calculator-form">
             <div class="form-section">
                 <div class="form-group">
@@ -86,13 +86,13 @@ Or comma-separated: 2.3, 2.8, 1.9, 3.2, 2.1" required></textarea>
                     <input type="number" step="any" name="p25" id="p25" required placeholder="e.g., 1.8">
                     <small>Value below which 25% of data falls</small>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="p50"><strong>50th Percentile (Median, Q2):</strong></label>
                     <input type="number" step="any" name="p50" id="p50" required placeholder="e.g., 2.5">
                     <small>Middle value when data is sorted</small>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="p75"><strong>75th Percentile (Q3):</strong></label>
                     <input type="number" step="any" name="p75" id="p75" required placeholder="e.g., 3.2">
@@ -109,47 +109,47 @@ Or comma-separated: 2.3, 2.8, 1.9, 3.2, 2.1" required></textarea>
             <h3>📊 Proportion-Based Metrics</h3>
             <p><strong>For Proportion Metrics:</strong> Conversion rates, click-through rates, signup rates, bounce rates, etc.</p>
         </div>
-        
+
         <div class="conversion-methods">
             <div class="conversion-method">
                 <h4>📈 From Historical Proportion Data</h4>
 
                 <form method="POST" action="/calculate-conversion-rate-std" class="calculator-form">
                     <input type="hidden" name="calc_type" value="historical_data">
-                    
+
                     <div class="form-group">
                         <label for="conversions"><strong>Conversions per Period:</strong></label>
                         <input type="text" name="conversions" id="conversions" placeholder="e.g., 23, 31, 19, 28, 25" required>
                         <small>Number of conversions for each time period (comma or space separated)</small>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="visitors"><strong>Visitors per Period:</strong></label>
                         <input type="text" name="visitors" id="visitors" placeholder="e.g., 1000, 1050, 980, 1020, 995" required>
                         <small>Number of visitors for each corresponding period</small>
                     </div>
-                    
+
                     <button type="submit">Calculate from Historical Data</button>
                 </form>
             </div>
-            
+
             <div class="conversion-method">
                 <h4>🎯 Theoretical Proportion Calculation</h4>
                 <form method="POST" action="/calculate-conversion-rate-std" class="calculator-form">
                     <input type="hidden" name="calc_type" value="theoretical">
-                    
+
                     <div class="form-group">
                         <label for="baseline_rate"><strong>Baseline Conversion Rate (%):</strong></label>
                         <input type="number" step="0.01" name="baseline_rate" id="baseline_rate" placeholder="e.g., 2.5" required>
                         <small>Your current conversion rate as a percentage</small>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="sample_size"><strong>Sample Size per Group:</strong></label>
                         <input type="number" name="sample_size" id="sample_size" placeholder="e.g., 10000" required>
                         <small>Number of visitors you plan to test per group</small>
                     </div>
-                    
+
                     <button type="submit">Calculate Theoretical Std Dev</button>
                 </form>
             </div>
@@ -170,7 +170,7 @@ Or comma-separated: 2.3, 2.8, 1.9, 3.2, 2.1" required></textarea>
             <strong>📈 Percentiles:</strong> Good accuracy. Use when you have quartile information.
         </div>
     </div>
-    
+
     <h4>🎯 Using Results in A/B Testing</h4>
     <p>Once you calculate the standard deviation, you can use it in the <a href="/sample-size-calculator">Fixed Horizon Calculator</a> or <a href="/sequential-calculator">Sequential Testing Calculator</a> for more accurate sample size planning.</p>
 </div>
@@ -186,15 +186,15 @@ function showTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
     });
-    
+
     // Remove active class from all buttons
     document.querySelectorAll('.tab-button').forEach(button => {
         button.classList.remove('active');
     });
-    
+
     // Show selected tab
     document.getElementById(tabId).classList.add('active');
-    
+
     // Add active class to clicked button
     event.target.classList.add('active');
 }
