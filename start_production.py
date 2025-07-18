@@ -53,9 +53,7 @@ def main():
         print(f"Error starting server: {e}")
         print("Falling back to Flask development server...")
         # Fallback to Flask dev server
-        import os
-
-        os.system("python app.py")
+        os.system("python app.py")  # nosec: B605 - Fallback only, controlled input
     except KeyboardInterrupt:
         print("\nShutting down server...")
 
