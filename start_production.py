@@ -15,7 +15,7 @@ def main():
     # Set production environment
     os.environ["FLASK_ENV"] = "production"
 
-    # Gunicorn command
+    # Gunicorn command with WARNING level logging for pristine production logs
     cmd = [
         "gunicorn",
         "--bind",
@@ -30,6 +30,8 @@ def main():
         "1000",
         "--max-requests-jitter",
         "50",
+        "--log-level",
+        "warning",
         "--access-logfile",
         "-",
         "--error-logfile",
