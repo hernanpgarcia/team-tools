@@ -47,14 +47,14 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
-        
+
       - id: pytest-integration
         name: pytest-integration
         entry: python -m pytest tests/integration/ -v --tb=short
         language: system
         pass_filenames: false
         always_run: true
-        
+
       - id: template-validation
         name: template-validation
         entry: python -m pytest tests/templates/ -v --tb=short
@@ -70,6 +70,6 @@ repos:
         args: [--ignore-missing-imports, --no-strict-optional]
 
 # Configuration for specific hooks
-default_stages: [commit]
+default_stages: [pre-commit]
 fail_fast: false
 minimum_pre_commit_version: '2.20.0'

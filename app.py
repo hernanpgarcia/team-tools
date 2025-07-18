@@ -14,7 +14,6 @@ from calculations.std_calculator import (
     estimate_conversion_rate_std,
     estimate_std_from_percentiles,
     estimate_std_from_range,
-    sample_size_for_std_estimation,
 )
 
 app = Flask(__name__)
@@ -178,7 +177,10 @@ def calculate_msprt_route():
         weekly_visitors = int(weekly_visitors)
 
         max_weeks = validate_numeric_input(
-            request.form.get("max_weeks"), "Maximum test duration (weeks)", min_val=1, max_val=52
+            request.form.get("max_weeks"),
+            "Maximum test duration (weeks)",
+            min_val=1,
+            max_val=52,
         )
         max_weeks = int(max_weeks)
 
@@ -219,11 +221,26 @@ def calculate_msprt_route():
                 max_val=1000,
             )
 
-        logger.info(
-            f"Validated inputs: baseline_mean={baseline_mean}, weekly_visitors={weekly_visitors}, max_weeks={max_weeks}, alpha={alpha}, beta={beta}"
+        # Get variance adjustment parameters (with defaults for realistic mSPRT)
+        variance_inflation_factor = validate_numeric_input(
+            request.form.get("variance_inflation_factor", "1.5"),
+            "Variance inflation factor",
+            min_val=1.0,
+            max_val=5.0,
         )
 
-        # Calculate mSPRT plan
+        mixing_variance_factor = validate_numeric_input(
+            request.form.get("mixing_variance_factor", "2.0"),
+            "Mixing variance factor",
+            min_val=1.0,
+            max_val=10.0,
+        )
+
+        logger.info(
+            f"Validated inputs: baseline_mean={baseline_mean}, weekly_visitors={weekly_visitors}, max_weeks={max_weeks}, alpha={alpha}, beta={beta}, variance_inflation={variance_inflation_factor}, mixing_variance={mixing_variance_factor}"
+        )
+
+        # Calculate mSPRT plan with realistic variance adjustments
         results = calculate_msprt_plan(
             baseline_mean,
             std_known,
@@ -236,6 +253,8 @@ def calculate_msprt_route():
             min_n,
             weekly_visitors,
             max_weeks,
+            variance_inflation_factor,
+            mixing_variance_factor,
         )
 
         logger.info("mSPRT calculation completed successfully")

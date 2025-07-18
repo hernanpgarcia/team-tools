@@ -1002,11 +1002,11 @@ textarea {
         grid-template-columns: 1fr;
         gap: 20px;
     }
-    
+
     .weekly-monitoring-table {
         font-size: 12px;
     }
-    
+
     .weekly-monitoring-table th,
     .weekly-monitoring-table td {
         padding: 8px 6px;

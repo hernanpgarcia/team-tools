@@ -16,7 +16,7 @@ Calculate how many participants you need for your A/B test:
 - **Output**: Required sample size for reliable results
 - **Features**: Handles unknown standard deviation, provides confidence intervals
 
-### 🔄 Sequential Testing Calculator  
+### 🔄 Sequential Testing Calculator
 Plan experiments that can stop early when results are clear:
 - **Input**: Test parameters and monitoring preferences
 - **Output**: Monitoring plan with decision boundaries
@@ -60,12 +60,12 @@ team-tools/
 
 ## 🎉 Features
 
-✅ **No coding required** - Just point, click, and calculate  
-✅ **Comprehensive testing** - Over 120 automated tests ensure reliability  
-✅ **Error handling** - Clear error messages help you fix input problems  
-✅ **Professional results** - Detailed output with explanations  
-✅ **Mobile friendly** - Works on phones, tablets, and computers  
-✅ **Offline capable** - Runs on your computer, no internet needed  
+✅ **No coding required** - Just point, click, and calculate
+✅ **Comprehensive testing** - Over 120 automated tests ensure reliability
+✅ **Error handling** - Clear error messages help you fix input problems
+✅ **Professional results** - Detailed output with explanations
+✅ **Mobile friendly** - Works on phones, tablets, and computers
+✅ **Offline capable** - Runs on your computer, no internet needed
 
 ## 📊 Mathematical Reliability
 

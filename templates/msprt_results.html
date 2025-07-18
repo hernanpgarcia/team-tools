@@ -62,13 +62,24 @@
     </div>
 </div>
 
+<!-- Realistic Variance Adjustments Disclaimer -->
+<div class="info-section">
+    <h4>🔧 Realistic Variance Adjustments Applied</h4>
+    <p>These results include adjustments to make mSPRT predictions more realistic:</p>
+    <ul>
+        <li><strong>Variance Inflation ({{ "%.1f"|format(variance_inflation_factor) }}x):</strong> Accounts for user clustering, temporal variations, and external factors that increase real-world variance beyond theoretical models.</li>
+        <li><strong>Mixing Variance Calibration ({{ "%.1f"|format(mixing_variance_factor) }}x):</strong> Adjusts for the fact that mSPRT assumes perfect variance knowledge, while real experiments require calibration for reliable predictions.</li>
+        <li><strong>Impact:</strong> Original effect size {{ "%.3f"|format(effect_size) }} → Calibrated effect size {{ "%.3f"|format(calibrated_effect_size) }}, providing more accurate timeline estimates.</li>
+    </ul>
+</div>
+
 {% if weekly_visitors %}
 <div class="monitoring-section">
     <h3>📅 Weekly Monitoring Plan</h3>
     <p class="monitoring-description">
         With <strong>{{ weekly_visitors }}</strong> visitors per group per week, here's when you can make decisions based on your actual test results:
     </p>
-    
+
     <div class="table-container">
         <table class="weekly-monitoring-table">
             <thead>
@@ -93,7 +104,7 @@
             </tbody>
         </table>
     </div>
-    
+
     <div class="monitoring-legend">
         <h4>📖 How to Read This Table:</h4>
         <ul>
@@ -102,7 +113,7 @@
             <li><strong>❌ Significant Decline:</strong> You can stop the test and keep the current version</li>
             <li><strong>⏳ Keep Testing:</strong> Results are not clear yet, continue to next week</li>
         </ul>
-        
+
         <div class="timeline-explanation">
             <h4>📊 Expected vs. Actual Timeline:</h4>
             <p><strong>Expected Timeline</strong> shows the theoretical average when an effect exists.<br>
@@ -141,40 +152,7 @@
 </div>
 {% endif %}
 
-<div class="implementation-guide">
-    <h3>📋 mSPRT Implementation Guide</h3>
-    <div class="guide-steps">
-        <div class="step">
-            <div class="step-number">1</div>
-            <div class="step-content">
-                <strong>Collect minimum samples:</strong> Wait until you have at least {{ "%.0f"|format(min_n) }} samples per group
-            </div>
-        </div>
-        <div class="step">
-            <div class="step-number">2</div>
-            <div class="step-content">
-                <strong>Calculate test statistic:</strong> Difference in means divided by pooled standard error
-            </div>
-        </div>
-        <div class="step">
-            <div class="step-number">3</div>
-            <div class="step-content">
-                <strong>Decision rules:</strong>
-                <ul>
-                    <li><strong>Stop and declare significance:</strong> If observed difference > upper boundary</li>
-                    <li><strong>Stop and declare no effect:</strong> If observed difference < lower boundary</li>
-                    <li><strong>Continue testing:</strong> If difference is within boundaries</li>
-                </ul>
-            </div>
-        </div>
-        <div class="step">
-            <div class="step-number">4</div>
-            <div class="step-content">
-                <strong>Safety cap:</strong> Stop at {{ "%.0f"|format(max_n) }} samples per group maximum
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <div class="advantages-section">
     <h3>💡 mSPRT Advantages</h3>
@@ -194,16 +172,6 @@
     </div>
 </div>
 
-<div class="important-notes">
-    <h3>⚠️ Important Notes</h3>
-    <ul>
-        <li><strong>Stick to the plan:</strong> Only stop when boundaries are crossed</li>
-        <li><strong>No peeking penalty:</strong> mSPRT allows continuous monitoring without alpha inflation</li>
-        {% if use_t_test %}
-        <li><strong>Variance estimation:</strong> Update variance estimates periodically for better accuracy</li>
-        {% endif %}
-    </ul>
-</div>
 
 <div class="navigation-links">
     <a href="/sequential-calculator">← Calculate Another mSPRT Test</a>

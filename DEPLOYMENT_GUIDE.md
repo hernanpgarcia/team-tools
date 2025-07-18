@@ -5,9 +5,9 @@ Your calculator is ready to deploy online! Here are several free deployment opti
 ## 🎯 Quick Deploy Options
 
 ### 1. **Railway** (Recommended - Already Configured!)
-✅ **Easy**: One-click deployment  
-✅ **Free**: Generous free tier  
-✅ **Fast**: Deploys in 2-3 minutes  
+✅ **Easy**: One-click deployment
+✅ **Free**: Generous free tier
+✅ **Fast**: Deploys in 2-3 minutes
 
 **Steps:**
 1. Go to [railway.app](https://railway.app)
@@ -19,21 +19,21 @@ Your calculator is ready to deploy online! Here are several free deployment opti
 **Your calculator will be live at:** `https://your-app-name.railway.app`
 
 ### 2. **Render** (Also Great!)
-✅ **Free**: No credit card required  
-✅ **Simple**: GitHub integration  
-✅ **Reliable**: Good uptime  
+✅ **Free**: No credit card required
+✅ **Simple**: GitHub integration
+✅ **Reliable**: Good uptime
 
 **Steps:**
 1. Go to [render.com](https://render.com)
 2. Sign up with GitHub
 3. Click "New Web Service"
-4. Connect your `team-tools` repository  
+4. Connect your `team-tools` repository
 5. Render will use the `render.yaml` configuration automatically
 
 ### 3. **Vercel** (For Static-Like Apps)
-✅ **Fast**: Global CDN  
-✅ **Free**: Generous limits  
-✅ **Simple**: Git integration  
+✅ **Fast**: Global CDN
+✅ **Free**: Generous limits
+✅ **Simple**: Git integration
 
 **Steps:**
 1. Go to [vercel.com](https://vercel.com)
@@ -43,9 +43,9 @@ Your calculator is ready to deploy online! Here are several free deployment opti
 5. Vercel will use the `vercel.json` configuration
 
 ### 4. **Heroku** (Classic Option)
-✅ **Established**: Been around forever  
-✅ **Docs**: Great documentation  
-⚠️ **Paid**: No longer has free tier  
+✅ **Established**: Been around forever
+✅ **Docs**: Great documentation
+⚠️ **Paid**: No longer has free tier
 
 **Steps:**
 1. Go to [heroku.com](https://heroku.com)
@@ -74,7 +74,7 @@ For production deployment, set these variables:
 
 Your project includes deployment configurations for:
 - **`railway.toml`** - Railway deployment
-- **`render.yaml`** - Render deployment  
+- **`render.yaml`** - Render deployment
 - **`vercel.json`** - Vercel deployment
 - **`Procfile`** - Heroku deployment
 

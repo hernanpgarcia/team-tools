@@ -64,7 +64,7 @@ python quick_test.py
 You should see:
 ```
 ✅ Fixed horizon calculator works
-✅ mSPRT calculator works  
+✅ mSPRT calculator works
 ✅ Standard deviation calculator works
 ✅ Flask app home page works
 ✅ Flask app calculation works
