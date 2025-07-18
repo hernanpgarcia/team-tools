@@ -35,7 +35,7 @@ class TestMSPRTCalculator:
             result["std_method"]
             == "Known standard deviation (inflated by 1.5x for clustering/temporal effects)"
         )
-        assert result["use_t_test"] == False
+        assert result["use_t_test"] is False
         assert result["test_mean"] == 105
         assert result["absolute_improvement"] == 5
         assert result["relative_improvement"] == 5
@@ -64,7 +64,7 @@ class TestMSPRTCalculator:
             result["std_method"]
             == "Estimated standard deviation (use Welch's t-test) (inflated by 1.5x for clustering/temporal effects)"
         )
-        assert result["use_t_test"] == True
+        assert result["use_t_test"] is True
 
     def test_unknown_std(self):
         """Test mSPRT calculation with unknown standard deviation"""
@@ -85,7 +85,7 @@ class TestMSPRTCalculator:
             result["std_method"]
             == "Unknown standard deviation (robust estimation) (inflated by 1.5x for clustering/temporal effects)"
         )
-        assert result["use_t_test"] == True
+        assert result["use_t_test"] is True
         assert (
             abs(result["baseline_std"] - 50 * math.sqrt(1.5)) < 0.01
         )  # Conservative estimate inflated by 1.5x

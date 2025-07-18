@@ -294,7 +294,6 @@ class TestTheoreticalConversionStd:
 
         # Larger effects should require smaller sample sizes
         effects = [rec["relative_effect"] for rec in recommendations]
-        sample_sizes = [rec["sample_size_needed"] for rec in recommendations]
 
         assert effects == sorted(effects)  # Should be in ascending order
         # Generally, sample sizes should decrease as effect increases

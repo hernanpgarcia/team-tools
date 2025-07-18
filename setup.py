@@ -8,12 +8,11 @@ import os
 import platform
 import subprocess
 import sys
-import time
 
 
 def print_step(step, message):
     """Print a formatted step message"""
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"STEP {step}: {message}")
     print("=" * 60)
 

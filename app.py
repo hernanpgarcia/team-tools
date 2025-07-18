@@ -475,11 +475,11 @@ def calculate_conversion_rate_std_route():
             for i, (conv, vis) in enumerate(zip(conversions, visitors)):
                 if conv > vis:
                     raise ValueError(
-                        f"Conversions cannot exceed visitors in data point {i+1}"
+                        f"Conversions cannot exceed visitors in data point {i + 1}"
                     )
                 if vis <= 0:
                     raise ValueError(
-                        f"Visitor count must be positive in data point {i+1}"
+                        f"Visitor count must be positive in data point {i + 1}"
                     )
 
             logger.info(f"Parsed {len(conversions)} conversion/visitor pairs")
@@ -563,4 +563,5 @@ if __name__ == "__main__":
 
     logger.info(f"Starting Flask app on port {port} with debug={debug_mode}")
 
+    # nosec: B104 - Binding to all interfaces is intentional for development
     app.run(host="0.0.0.0", port=port, debug=debug_mode)

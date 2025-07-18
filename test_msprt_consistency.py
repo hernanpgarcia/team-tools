@@ -91,9 +91,9 @@ def test_expected_timeline_vs_weekly_monitoring_consistency():
             difference = abs(first_significant_week - expected_weeks_h1)
             assert difference <= tolerance, (
                 f"Scenario ({baseline_mean}, {improvement_value}%): "
-                f"Expected Timeline: {expected_weeks_h1:.1f} weeks, "
+                f"Expected Timeline: {expected_weeks_h1: .1f} weeks, "
                 f"First Significant: {first_significant_week} weeks, "
-                f"Difference: {difference:.1f} weeks (tolerance: {tolerance})"
+                f"Difference: {difference: .1f} weeks (tolerance: {tolerance})"
             )
 
         # Test half-effect consistency
@@ -101,7 +101,7 @@ def test_expected_timeline_vs_weekly_monitoring_consistency():
         # Half effect should take longer than full effect
         assert (
             half_effect_weeks >= expected_weeks_h1
-        ), f"Half effect ({half_effect_weeks:.1f}) should take longer than full effect ({expected_weeks_h1:.1f})"
+        ), f"Half effect ({half_effect_weeks: .1f}) should take longer than full effect ({expected_weeks_h1: .1f})"
 
 
 def test_shared_functions_used_consistently():

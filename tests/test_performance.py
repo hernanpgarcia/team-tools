@@ -37,7 +37,7 @@ class TestPerformance:
         avg_time = (end_time - start_time) / 100
 
         # Should complete in under 1ms per calculation
-        assert avg_time < 0.001, f"Sample size calculation too slow: {avg_time:.4f}s"
+        assert avg_time < 0.001, f"Sample size calculation too slow: {avg_time: .4f}s"
 
     @pytest.mark.performance
     def test_msprt_calculation_performance(self):
@@ -62,7 +62,7 @@ class TestPerformance:
         avg_time = (end_time - start_time) / 50
 
         # Should complete in under 10ms per calculation
-        assert avg_time < 0.01, f"mSPRT calculation too slow: {avg_time:.4f}s"
+        assert avg_time < 0.01, f"mSPRT calculation too slow: {avg_time: .4f}s"
 
     @pytest.mark.performance
     def test_std_calculation_performance(self):
@@ -80,7 +80,7 @@ class TestPerformance:
         avg_time = (end_time - start_time) / 100
 
         # Should complete in under 1ms per calculation
-        assert avg_time < 0.001, f"Std calculation too slow: {avg_time:.4f}s"
+        assert avg_time < 0.001, f"Std calculation too slow: {avg_time: .4f}s"
 
     @pytest.mark.performance
     def test_sample_size_with_varying_parameters(self):
@@ -120,8 +120,8 @@ class TestPerformance:
         max_time = max(times)
         avg_time = statistics.mean(times)
 
-        assert max_time < 0.01, f"Slowest calculation: {max_time:.4f}s"
-        assert avg_time < 0.005, f"Average calculation time: {avg_time:.4f}s"
+        assert max_time < 0.01, f"Slowest calculation: {max_time: .4f}s"
+        assert avg_time < 0.005, f"Average calculation time: {avg_time: .4f}s"
 
     @pytest.mark.performance
     @given(
@@ -154,7 +154,9 @@ class TestPerformance:
         calculation_time = end_time - start_time
 
         # Even with random parameters, should complete quickly
-        assert calculation_time < 0.01, f"Calculation too slow: {calculation_time:.4f}s"
+        assert (
+            calculation_time < 0.01
+        ), f"Calculation too slow: {calculation_time: .4f}s"
 
     @pytest.mark.performance
     def test_large_dataset_std_calculation(self):
@@ -174,7 +176,7 @@ class TestPerformance:
             max_time = size * 0.000001  # 1 microsecond per data point
             assert (
                 calculation_time < max_time
-            ), f"Dataset size {size} too slow: {calculation_time:.4f}s"
+            ), f"Dataset size {size} too slow: {calculation_time: .4f}s"
 
     @pytest.mark.performance
     def test_memory_usage_stability(self):

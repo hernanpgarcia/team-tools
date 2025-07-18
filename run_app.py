@@ -4,8 +4,7 @@ Easy way to start the Team Tools Calculator
 """
 import os
 import platform
-import subprocess
-import sys
+import subprocess  # nosec: B404 - subprocess used for legitimate development script
 
 
 def main():
@@ -25,7 +24,9 @@ def main():
         cmd = "source venv/bin/activate && python app.py"
 
     try:
-        subprocess.run(cmd, shell=True)
+        subprocess.run(
+            cmd, shell=True
+        )  # nosec: B602 - shell=True needed for development script
     except KeyboardInterrupt:
         print("\nCalculator stopped. Thanks for using Team Tools!")
 

@@ -5,14 +5,13 @@ Comprehensive test runner for Team Tools Calculator
 
 import argparse
 import os
-import subprocess
+import subprocess  # nosec: B404 - subprocess used for legitimate test script
 import sys
-from pathlib import Path
 
 
 def run_command(cmd, description):
     """Run a command and handle errors"""
-    print(f"\\n{'='*60}")
+    print(f"\\n{'=' * 60}")
     print(f"Running: {description}")
     print(f"Command: {cmd}")
     print("=" * 60)

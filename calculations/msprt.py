@@ -102,21 +102,21 @@ def determine_week_status(
         if observed_effect > 0:
             status = "✅ Significant Improvement"
             if abs(observed_effect) > boundary * 1.1:
-                explanation = f"The {observed_effect:.3f} improvement is clearly detectable. You can confidently implement this change."
+                explanation = f"The {observed_effect: .3f} improvement is clearly detectable. You can confidently implement this change."
             else:
-                explanation = f"The {observed_effect:.3f} improvement is just detectable. This is the minimum reliable improvement we can confirm."
+                explanation = f"The {observed_effect: .3f} improvement is just detectable. This is the minimum reliable improvement we can confirm."
         else:
             status = "❌ Significant Decline"
             if abs(observed_effect) > boundary * 1.1:
-                explanation = f"The {abs(observed_effect):.3f} decline is clearly detectable. You should keep the current version."
+                explanation = f"The {abs(observed_effect): .3f} decline is clearly detectable. You should keep the current version."
             else:
-                explanation = f"The {abs(observed_effect):.3f} decline is just detectable. This is the minimum reliable decline we can confirm."
+                explanation = f"The {abs(observed_effect): .3f} decline is just detectable. This is the minimum reliable decline we can confirm."
     else:
         status = "⏳ Keep Testing"
         # Convert to relative percentage for easier understanding
         min_detectable_percent = (boundary / baseline_mean) * 100
         expected_percent = (abs(observed_effect) / baseline_mean) * 100
-        explanation = f"Can detect effects ≥{min_detectable_percent:.1f}%, but expecting {expected_percent:.1f}%. Need more data to detect smaller effects."
+        explanation = f"Can detect effects ≥{min_detectable_percent: .1f}%, but expecting {expected_percent: .1f}%. Need more data to detect smaller effects."
 
     return {
         "week": week,
@@ -187,7 +187,7 @@ def calculate_msprt_plan(
 
     # Update std_method to reflect adjustments
     if variance_inflation_factor > 1.0:
-        std_method += f" (inflated by {variance_inflation_factor:.1f}x for clustering/temporal effects)"
+        std_method += f" (inflated by {variance_inflation_factor: .1f}x for clustering/temporal effects)"
 
     # Calculate expected test mean
     if improvement_type == "absolute":
@@ -444,5 +444,5 @@ def validate_msprt_consistency(results):
         "first_significant_week": first_significant_week,
         "difference": difference,
         "tolerance": 2.0,
-        "reason": f"Expected: {expected_weeks:.1f}w, Actual: {first_significant_week}w, Diff: {difference:.1f}w",
+        "reason": f"Expected: {expected_weeks: .1f}w, Actual: {first_significant_week}w, Diff: {difference: .1f}w",
     }

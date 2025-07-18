@@ -2,7 +2,6 @@
 Unit tests for fixed horizon sample size calculations
 """
 
-import math
 
 import pytest
 
@@ -33,7 +32,7 @@ class TestFixedHorizonCalculator:
         assert result["relative_improvement"] == 5
         assert result["power"] == 0.8
         assert result["alpha"] == 0.05
-        assert result["std_estimated"] == False
+        assert result["std_estimated"] is False
 
     def test_valid_absolute_improvement(self):
         """Test calculation with valid absolute improvement"""
@@ -64,7 +63,7 @@ class TestFixedHorizonCalculator:
         )
 
         assert result is not None
-        assert result["std_estimated"] == True
+        assert result["std_estimated"] is True
         assert result["baseline_std"] == 50  # Conservative estimate: 50% of mean
 
     def test_one_sided_vs_two_sided(self):

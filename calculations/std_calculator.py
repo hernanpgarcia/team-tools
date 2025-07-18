@@ -301,5 +301,5 @@ def sample_size_for_std_estimation(target_precision, confidence_level=0.95):
         "n_required": math.ceil(n_required),
         "target_precision": target_precision * 100,  # Convert to percentage
         "confidence_level": confidence_level * 100,
-        "interpretation": f"With {math.ceil(n_required)} samples, you can estimate the standard deviation within ±{target_precision*100:.1f}% with {confidence_level*100:.0f}% confidence",
+        "interpretation": f"With {math.ceil(n_required)} samples, you can estimate the standard deviation within ±{target_precision * 100: .1f}% with {confidence_level * 100: .0f}% confidence",
     }
