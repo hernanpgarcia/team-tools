@@ -2,6 +2,7 @@
 Team Tools Dashboard - Modular Flask Application
 """
 import logging
+import os
 import traceback
 
 from flask import Flask, render_template, request
@@ -18,11 +19,32 @@ from calculations.std_calculator import (
 
 app = Flask(__name__)
 
-# Configure logging for debugging
+# Configure logging - production-friendly levels
+
+log_level = (
+    logging.WARNING
+    if os.environ.get("FLASK_ENV") == "production"
+    or os.environ.get("RAILWAY_ENVIRONMENT")
+    else logging.DEBUG
+)
+
+# File handler for debugging (keeps all logs)
+file_handler = logging.FileHandler("team_tools_debug.log")
+file_handler.setLevel(logging.DEBUG)
+file_handler.setFormatter(
+    logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+)
+
+# Console handler for production (only warnings/errors)
+console_handler = logging.StreamHandler()
+console_handler.setLevel(log_level)
+console_handler.setFormatter(
+    logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+)
+
 logging.basicConfig(
     level=logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("team_tools_debug.log"), logging.StreamHandler()],
+    handlers=[file_handler, console_handler],
 )
 logger = logging.getLogger(__name__)
 
