@@ -532,6 +532,18 @@ def calculate_conversion_rate_std_route():
         )
 
 
+@app.route("/robots.txt")
+def robots_txt():
+    """Serve robots.txt file"""
+    return app.send_static_file("robots.txt")
+
+
+@app.route("/favicon.ico")
+def favicon():
+    """Serve favicon.ico file"""
+    return app.send_static_file("favicon.ico")
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     logger.warning(f"404 error: {request.url}")
@@ -559,7 +571,12 @@ if __name__ == "__main__":
     import os
 
     port = int(os.environ.get("PORT", 5000))
-    debug_mode = os.environ.get("FLASK_ENV", "development") != "production"
+    # Disable debug mode in production environments
+    debug_mode = (
+        os.environ.get("FLASK_ENV") == "development"
+        and os.environ.get("PORT") != "8080"
+        and not os.environ.get("RAILWAY_ENVIRONMENT")
+    )
 
     logger.info(f"Starting Flask app on port {port} with debug={debug_mode}")
 

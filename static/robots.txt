@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Team Tools Calculator
+# A tool for statistical calculations and A/B testing
+Sitemap: https://team-tools-production.up.railway.app/sitemap.xml
