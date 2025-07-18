@@ -42,9 +42,20 @@ def main():
 
     try:
         subprocess.run(cmd, check=True)
+    except FileNotFoundError:
+        print("Error: gunicorn not found. Installing...")
+        subprocess.run(
+            [sys.executable, "-m", "pip", "install", "gunicorn==21.2.0"], check=True
+        )
+        print("Retrying with gunicorn...")
+        subprocess.run(cmd, check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error starting server: {e}")
-        sys.exit(1)
+        print("Falling back to Flask development server...")
+        # Fallback to Flask dev server
+        import os
+
+        os.system("python app.py")
     except KeyboardInterrupt:
         print("\nShutting down server...")
 
