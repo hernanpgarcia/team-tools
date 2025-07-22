@@ -80,7 +80,7 @@
     <div class="results-section">
         <h3>⚙️ Method Details</h3>
         <table class="results-table">
-            <tr><td><strong>Method:</strong></td><td>{{ method }}</td></tr>
+            <tr><td><strong>Method:</strong></td><td>{{ estimation_method }}</td></tr>
             <tr><td><strong>Accuracy:</strong></td><td>{{ accuracy }}</td></tr>
         </table>
     </div>
@@ -265,7 +265,7 @@
     <h3>🔍 Improve Your Estimate</h3>
     <div class="suggestions-grid">
         <div class="suggestion-item">
-            <strong>Collect More Data:</strong> Gather {{ sample_size_for_std_estimation(0.1)['n_required'] if 'sample_size_for_std_estimation' in globals() else '50-100' }} actual data points for a precise estimate within ±10%.
+            <strong>Collect More Data:</strong> Gather 50-100 actual data points for a precise estimate within ±10%.
         </div>
         <div class="suggestion-item">
             <strong>Pilot Study:</strong> Run a small test first to get better variance estimates.

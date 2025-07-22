@@ -18,6 +18,7 @@ from calculations.std_calculator import (
 )
 
 app = Flask(__name__)
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # Configure logging - production-friendly levels
 
@@ -378,6 +379,8 @@ def calculate_std_from_range_route():
 
         results = estimate_std_from_range(min_val, max_val, method)
         logger.info("Std calculation from range completed successfully")
+        # Rename the 'method' key in results to avoid conflict with template parameter
+        results["estimation_method"] = results.pop("method", "")
         return render_template("std_calculator_results.html", method="range", **results)
 
     except Exception as e:
@@ -536,6 +539,8 @@ def calculate_conversion_rate_std_route():
             logger.info(
                 "Theoretical conversion rate std calculation completed successfully"
             )
+            # Add estimated_std for template compatibility
+            results["estimated_std"] = results["std_dev"]
             return render_template(
                 "std_calculator_results.html",
                 method="conversion_theoretical",
