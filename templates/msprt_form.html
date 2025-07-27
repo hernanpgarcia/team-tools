@@ -51,22 +51,22 @@
         <div class="form-group">
             <div class="radio-group">
                 <label>
-                    <input type="radio" name="improvement_type" value="absolute" checked>
-                    <strong>Absolute Improvement</strong>
+                    <input type="radio" name="improvement_type" value="relative" checked>
+                    <strong>Relative Improvement (%)</strong>
                 </label>
-                <input type="number" step="any" name="absolute_improvement" placeholder="e.g., 0.3">
-                <small>Direct change in metric value</small>
+                <input type="number" step="any" name="relative_improvement" placeholder="e.g., 15">
+                <small>Percentage change from baseline</small>
             </div>
         </div>
 
         <div class="form-group">
             <div class="radio-group">
                 <label>
-                    <input type="radio" name="improvement_type" value="relative">
-                    <strong>Relative Improvement (%)</strong>
+                    <input type="radio" name="improvement_type" value="absolute">
+                    <strong>Absolute Improvement</strong>
                 </label>
-                <input type="number" step="any" name="relative_improvement" placeholder="e.g., 15">
-                <small>Percentage change from baseline</small>
+                <input type="number" step="any" name="absolute_improvement" placeholder="e.g., 0.3">
+                <small>Direct change in metric value</small>
             </div>
         </div>
     </div>
@@ -108,30 +108,35 @@
     </div>
 
     <div class="form-section">
-        <h3>🔧 Realistic Variance Adjustments</h3>
-        <p>These adjustments make mSPRT predictions more realistic by accounting for real-world variance sources that theoretical models often underestimate.</p>
+        <h3 class="advanced-toggle" onclick="toggleAdvancedSettings()">
+            <span class="toggle-arrow" id="advancedArrow">▶</span> Advanced settings
+        </h3>
+        <div id="advancedSettings" class="advanced-content" style="display: none;">
+            <h4>🔧 Realistic Variance Adjustments</h4>
+            <p>These adjustments make mSPRT predictions more realistic by accounting for real-world variance sources that theoretical models often underestimate.</p>
 
-        <div class="form-group">
-            <label for="variance_inflation_factor"><strong>Variance Inflation Factor:</strong></label>
-            <input type="number" name="variance_inflation_factor" id="variance_inflation_factor"
-                   value="1.5" step="0.1" min="1.0" max="5.0" placeholder="e.g., 1.5">
-            <small><strong>Accounts for:</strong> User clustering, temporal variations, external factors. Range: 1.2-3.0 typical, 1.5 recommended for web experiments.</small>
-        </div>
+            <div class="form-group">
+                <label for="variance_inflation_factor"><strong>Variance Inflation Factor:</strong></label>
+                <input type="number" name="variance_inflation_factor" id="variance_inflation_factor"
+                       value="1.5" step="0.1" min="1.0" max="5.0" placeholder="e.g., 1.5">
+                <small><strong>Accounts for:</strong> User clustering, temporal variations, external factors. Range: 1.2-3.0 typical, 1.5 recommended for web experiments.</small>
+            </div>
 
-        <div class="form-group">
-            <label for="mixing_variance_factor"><strong>Mixing Variance Factor:</strong></label>
-            <input type="number" name="mixing_variance_factor" id="mixing_variance_factor"
-                   value="2.0" step="0.1" min="1.0" max="10.0" placeholder="e.g., 2.0">
-            <small><strong>Calibrates mixing variance (γ):</strong> Misspecification by 1 order of magnitude = <5% power drop. 2.0x recommended for realistic sample size estimates.</small>
-        </div>
+            <div class="form-group">
+                <label for="mixing_variance_factor"><strong>Mixing Variance Factor:</strong></label>
+                <input type="number" name="mixing_variance_factor" id="mixing_variance_factor"
+                       value="2.0" step="0.1" min="1.0" max="10.0" placeholder="e.g., 2.0">
+                <small><strong>Calibrates mixing variance (γ):</strong> Misspecification by 1 order of magnitude = <5% power drop. 2.0x recommended for realistic sample size estimates.</small>
+            </div>
 
-        <div class="warning-note">
-            <strong>📊 Why These Adjustments Matter:</strong>
-            <ul>
-                <li><strong>Variance Inflation:</strong> Real experiments have 20-200% more variance than theoretical models due to clustering and temporal effects</li>
-                <li><strong>Mixing Variance:</strong> mSPRT assumes perfect variance knowledge. Real experiments need calibration for reliable predictions</li>
-                <li><strong>Result:</strong> More realistic timelines that match actual experimental outcomes</li>
-            </ul>
+            <div class="warning-note">
+                <strong>📊 Why These Adjustments Matter:</strong>
+                <ul>
+                    <li><strong>Variance Inflation:</strong> Real experiments have 20-200% more variance than theoretical models due to clustering and temporal effects</li>
+                    <li><strong>Mixing Variance:</strong> mSPRT assumes perfect variance knowledge. Real experiments need calibration for reliable predictions</li>
+                    <li><strong>Result:</strong> More realistic timelines that match actual experimental outcomes</li>
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -168,4 +173,19 @@
     <a href="/">← Back to Dashboard</a>
     <a href="/sample-size-calculator">→ Try Fixed Horizon Testing</a>
 </div>
+
+<script>
+function toggleAdvancedSettings() {
+    const advancedSettings = document.getElementById('advancedSettings');
+    const arrow = document.getElementById('advancedArrow');
+    
+    if (advancedSettings.style.display === 'none') {
+        advancedSettings.style.display = 'block';
+        arrow.textContent = '▼';
+    } else {
+        advancedSettings.style.display = 'none';
+        arrow.textContent = '▶';
+    }
+}
+</script>
 {% endblock %}

@@ -187,7 +187,7 @@ def calculate_msprt_plan(
 
     # Update std_method to reflect adjustments
     if variance_inflation_factor > 1.0:
-        std_method += f" (inflated by {variance_inflation_factor: .1f}x for clustering/temporal effects)"
+        std_method += f" (inflated by {variance_inflation_factor:.1f}x for clustering/temporal effects)"
 
     # Calculate expected test mean
     if improvement_type == "absolute":

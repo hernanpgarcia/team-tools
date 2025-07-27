@@ -6,28 +6,6 @@
 <h2>mSPRT Sequential Testing Results</h2>
 
 <div class="results-grid">
-    <div class="results-section">
-        <h3>📊 Test Configuration</h3>
-        <table class="results-table">
-            <tr><td><strong>Baseline Mean:</strong></td><td>{{ baseline_mean }}</td></tr>
-            <tr><td><strong>Standard Deviation:</strong></td><td>{{ "%.3f"|format(baseline_std) }} ({{ std_method }})</td></tr>
-            <tr><td><strong>Expected Improvement:</strong></td><td>{{ "%+.3f"|format(absolute_improvement) }} ({{ "%+.1f%%"|format(relative_improvement) }})</td></tr>
-            <tr><td><strong>Effect Size (Cohen's d):</strong></td><td>{{ "%.3f"|format(effect_size) }}</td></tr>
-            <tr><td><strong>Test Method:</strong></td><td>{{ "Welch's t-test" if use_t_test else "Z-test" }}</td></tr>
-        </table>
-    </div>
-
-    <div class="results-section">
-        <h3>📈 mSPRT Parameters</h3>
-        <table class="results-table">
-            <tr><td><strong>Type I Error (α):</strong></td><td>{{ "%.1f%%"|format(alpha*100) }}</td></tr>
-            <tr><td><strong>Type II Error (β):</strong></td><td>{{ "%.1f%%"|format(beta*100) }}</td></tr>
-            <tr><td><strong>Power:</strong></td><td>{{ "%.1f%%"|format(power*100) }}</td></tr>
-            <tr><td><strong>Upper Threshold (A):</strong></td><td>{{ "%.2f"|format(A) }}</td></tr>
-            <tr><td><strong>Lower Threshold (B):</strong></td><td>{{ "%.4f"|format(B) }}</td></tr>
-        </table>
-    </div>
-
     <div class="results-section highlight">
         <h3>🎯 Expected Timeline</h3>
         {% if weekly_visitors %}
@@ -60,17 +38,43 @@
         </div>
         {% endif %}
     </div>
+
+    <div class="results-section">
+        <h3>📊 Test Configuration</h3>
+        <table class="results-table">
+            <tr><td><strong>Baseline Mean:</strong></td><td>{{ baseline_mean }}</td></tr>
+            <tr><td><strong>Standard Deviation:</strong></td><td>{{ "%.3f"|format(baseline_std) }} ({{ std_method }})</td></tr>
+            <tr><td><strong>Expected Improvement:</strong></td><td>{{ "%+.3f"|format(absolute_improvement) }} ({{ "%+.1f%%"|format(relative_improvement) }})</td></tr>
+            <tr><td><strong>Effect Size (Cohen's d):</strong></td><td>{{ "%.3f"|format(effect_size) }}</td></tr>
+            <tr><td><strong>Test Method:</strong></td><td>{{ "Welch's t-test" if use_t_test else "Z-test" }}</td></tr>
+        </table>
+    </div>
+
+    <div class="results-section">
+        <h3>📈 mSPRT Parameters</h3>
+        <table class="results-table">
+            <tr><td><strong>Type I Error (α):</strong></td><td>{{ "%.1f%%"|format(alpha*100) }}</td></tr>
+            <tr><td><strong>Type II Error (β):</strong></td><td>{{ "%.1f%%"|format(beta*100) }}</td></tr>
+            <tr><td><strong>Power:</strong></td><td>{{ "%.1f%%"|format(power*100) }}</td></tr>
+            <tr><td><strong>Upper Threshold (A):</strong></td><td>{{ "%.2f"|format(A) }}</td></tr>
+            <tr><td><strong>Lower Threshold (B):</strong></td><td>{{ "%.4f"|format(B) }}</td></tr>
+        </table>
+    </div>
 </div>
 
 <!-- Realistic Variance Adjustments Disclaimer -->
 <div class="info-section">
-    <h4>🔧 Realistic Variance Adjustments Applied</h4>
-    <p>These results include adjustments to make mSPRT predictions more realistic:</p>
-    <ul>
-        <li><strong>Variance Inflation ({{ "%.1f"|format(variance_inflation_factor) }}x):</strong> Accounts for user clustering, temporal variations, and external factors that increase real-world variance beyond theoretical models.</li>
-        <li><strong>Mixing Variance Calibration ({{ "%.1f"|format(mixing_variance_factor) }}x):</strong> Adjusts for the fact that mSPRT assumes perfect variance knowledge, while real experiments require calibration for reliable predictions.</li>
-        <li><strong>Impact:</strong> Original effect size {{ "%.3f"|format(effect_size) }} → Calibrated effect size {{ "%.3f"|format(calibrated_effect_size) }}, providing more accurate timeline estimates.</li>
-    </ul>
+    <h4 class="advanced-toggle" onclick="toggleVarianceAdjustments()">
+        <span class="toggle-arrow" id="varianceArrow">▶</span> 🔧 Realistic Variance Adjustments Applied
+    </h4>
+    <div id="varianceAdjustments" class="advanced-content" style="display: none;">
+        <p>These results include adjustments to make mSPRT predictions more realistic:</p>
+        <ul>
+            <li><strong>Variance Inflation ({{ "%.1f"|format(variance_inflation_factor) }}x):</strong> Accounts for user clustering, temporal variations, and external factors that increase real-world variance beyond theoretical models.</li>
+            <li><strong>Mixing Variance Calibration ({{ "%.1f"|format(mixing_variance_factor) }}x):</strong> Adjusts for the fact that mSPRT assumes perfect variance knowledge, while real experiments require calibration for reliable predictions.</li>
+            <li><strong>Impact:</strong> Original effect size {{ "%.3f"|format(effect_size) }} → Calibrated effect size {{ "%.3f"|format(calibrated_effect_size) }}, providing more accurate timeline estimates.</li>
+        </ul>
+    </div>
 </div>
 
 {% if weekly_visitors %}
@@ -154,23 +158,6 @@
 
 
 
-<div class="advantages-section">
-    <h3>💡 mSPRT Advantages</h3>
-    <div class="advantages-list">
-        <div class="advantage">
-            <strong>Always valid:</strong> Type I error rate exactly controlled at {{ "%.1f%%"|format(alpha*100) }}
-        </div>
-        <div class="advantage">
-            <strong>Continuous monitoring:</strong> Check results at any sample size ≥ {{ "%.0f"|format(min_n) }}
-        </div>
-        <div class="advantage">
-            <strong>Optimal efficiency:</strong> Minimizes expected sample size
-        </div>
-        <div class="advantage">
-            <strong>Robust to variance:</strong> {{ std_method }}
-        </div>
-    </div>
-</div>
 
 
 <div class="navigation-links">
@@ -178,4 +165,19 @@
     <a href="/sample-size-calculator">→ Try Fixed Horizon Testing</a>
     <a href="/">← Back to Dashboard</a>
 </div>
+
+<script>
+function toggleVarianceAdjustments() {
+    const varianceAdjustments = document.getElementById('varianceAdjustments');
+    const arrow = document.getElementById('varianceArrow');
+    
+    if (varianceAdjustments.style.display === 'none') {
+        varianceAdjustments.style.display = 'block';
+        arrow.textContent = '▼';
+    } else {
+        varianceAdjustments.style.display = 'none';
+        arrow.textContent = '▶';
+    }
+}
+</script>
 {% endblock %}
