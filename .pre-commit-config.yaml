@@ -37,27 +37,27 @@ repos:
     rev: 1.7.5
     hooks:
       - id: bandit
-        args: ['-r', 'app.py', 'calculations/']
+        args: ['-r', 'app.py', 'calculations/', '-x', 'scripts/']
 
   - repo: local
     hooks:
       - id: pytest-unit
         name: pytest-unit
-        entry: python3 -m pytest tests/unit/ -v --tb=short
+        entry: python3 scripts/run_unit_tests.py
         language: system
         pass_filenames: false
         always_run: true
 
       - id: pytest-integration
         name: pytest-integration
-        entry: python3 -m pytest tests/integration/ -v --tb=short
+        entry: python3 scripts/run_integration_tests.py
         language: system
         pass_filenames: false
         always_run: true
 
       - id: template-validation
         name: template-validation
-        entry: python3 -m pytest tests/templates/ -v --tb=short -k "not test_templates_have_title and not test_templates_have_proper_html_structure and not test_error_template_rendering and not test_base_template_structure"
+        entry: python3 scripts/run_template_tests.py
         language: system
         pass_filenames: false
         always_run: true
